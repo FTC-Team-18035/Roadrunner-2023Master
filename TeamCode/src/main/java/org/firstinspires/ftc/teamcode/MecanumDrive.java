@@ -37,6 +37,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -108,7 +109,9 @@ public final class MecanumDrive {
             new ProfileAccelConstraint(PARAMS.minProfileAccel, PARAMS.maxProfileAccel);
 
     public final DcMotorEx leftFront, leftBack, rightBack, rightFront;
-
+    public DcMotor LeftLiftMotor, RightLiftMotor, ArmRotationMotor;
+    public DcMotor IntakeMotor;
+    public Servo Claw1, Claw2, Drone;
     public final VoltageSensor voltageSensor;
 
     public final IMU imu;
@@ -208,13 +211,44 @@ public final class MecanumDrive {
         rightBack = hardwareMap.get(DcMotorEx.class, "Bleft");
         rightFront = hardwareMap.get(DcMotorEx.class, "Fright");
 
+        LeftLiftMotor = hardwareMap.get(DcMotor.class, "Lift1");
+        RightLiftMotor = hardwareMap.get(DcMotor.class, "Lift2");
+        ArmRotationMotor = hardwareMap.get(DcMotor.class, "ArmRotationMotor");
+        IntakeMotor = hardwareMap.get(DcMotor.class, "IntakeMotor");
+        Claw1 = hardwareMap.get(Servo.class, "Claw1");
+        Claw2 = hardwareMap.get(Servo.class, "Claw2");
+        Drone = hardwareMap.get(Servo.class, "Drone");
+
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        LeftLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        RightLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        ArmRotationMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        IntakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        RightLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        LeftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RightLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ArmRotationMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        LeftLiftMotor.setTargetPosition(0);
+        RightLiftMotor.setTargetPosition(0);
+        ArmRotationMotor.setTargetPosition(0);
+
+        LeftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        RightLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        ArmRotationMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        Claw1.setPosition(0);
+        Claw2.setPosition(0);
 
         // TODO: reverse motor directions if needed DONE
         //   leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -484,5 +518,15 @@ public final class MecanumDrive {
                 defaultVelConstraint, defaultAccelConstraint,
                 0.25, 0.1
         );
+    }
+    public void MoveLift(int targetPos){
+            LeftLiftMotor.setTargetPosition(targetPos);
+            RightLiftMotor.setTargetPosition(targetPos);
+            LeftLiftMotor.setPower(1);
+            RightLiftMotor.setPower(1);
+    }
+    public void RotateArm(int targetPos){
+        ArmRotationMotor.setTargetPosition(targetPos);
+        ArmRotationMotor.setPower(1);
     }
 }

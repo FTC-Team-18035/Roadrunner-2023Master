@@ -20,14 +20,37 @@ public final class WingSideDeliverParkRed extends LinearOpMode {
         Actions.runBlocking(
                 drive.actionBuilder(new Pose2d(0, 0, 0))
                         .strafeTo(new Vector2d(43,0))   //moves forward 49.5"
-                        .waitSeconds(2.5)
+                        .waitSeconds(.5)
                         .strafeTo(new Vector2d(43,-86)) //moves right 86"
-                        .waitSeconds(2.5)
+                        .waitSeconds(.5)
                         .turnTo(Math.toRadians(90)) //turns 90 degrees counterclockwise
                         .strafeTo(new Vector2d(27, -86))    //moves left 16"
-                        //**Raise gantry and move claws to delivery position here**\\
-                        .strafeTo(new Vector2d(27, -89))    //moves backwards " to get into deliver position
-                        //**open claws here**
                         .build());
+
+                        drive.MoveLift(100);
+                        sleep(1000);
+                        drive.RotateArm(-180);
+                        sleep(1000);
+                        drive.MoveLift(1950);
+                        sleep(1000);
+                        drive.RotateArm(880);
+                        sleep(1000);
+
+        Actions.runBlocking(
+                drive.actionBuilder(new Pose2d(27, -86, 90))
+
+                        .strafeTo(new Vector2d(27, -89))    //moves backwards " to get into deliver position
+                        .build());
+
+                        drive.Claw1.setPosition(1);
+                        sleep(400);
+                        drive.Claw2.setPosition(1);
+                        sleep(100);
+                        drive.RotateArm(-180);
+                        drive.MoveLift(100);
+                        drive.RotateArm(0);
+                        drive.MoveLift(0);
+
+
     }
 }
