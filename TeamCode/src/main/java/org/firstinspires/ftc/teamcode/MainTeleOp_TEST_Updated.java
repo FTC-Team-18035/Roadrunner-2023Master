@@ -53,7 +53,7 @@
         private boolean JustStarted = true;
 
         public double y, x, rx;
-        RevBlinkinLedDriver lights;
+       // RevBlinkinLedDriver lights;
 
         @Override
         public void runOpMode() throws InterruptedException {
@@ -73,9 +73,6 @@
             DcMotor ArmRotationMotor = hardwareMap.dcMotor.get("ArmRotationMotor");//Arm Rotation
 
             DcMotor IntakeMotor = hardwareMap.dcMotor.get("IntakeMotor");//Intake
-
-            lights = hardwareMap.get(RevBlinkinLedDriver.class, "Lights");//LED lights
-            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);//Sets the default to green on initialization
 
             // Reverse the right side motors
 
@@ -128,8 +125,8 @@
                     ReverseDriveTime.reset();//Resets the time since the driving was reversed
                     ReverseDriveActive = false;//Sets if the robot's driving is reversed or not
                     Lights.setPulseWidthOutputTime(2125);
-                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
-                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+                    Lights.setPulseWidthOutputTime(1935);
+                    Lights.setPulseWidthOutputTime(1885);
                 }
 
 
@@ -144,14 +141,13 @@
                     JustStarted = false;//Tells the robot that it has been reversed before
                     //lights.;
                     Lights.setPulseWidthOutputTime(2125);
-                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
-                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+                    Lights.setPulseWidthOutputTime(1935);
+                    Lights.setPulseWidthOutputTime(1805);
                 }
                 if (gamepad1.left_stick_button == true) {
-                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.fromNumber(2125));
                     Lights.setPulseWidthOutputTime(2125);
-                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
-                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_WITH_GLITTER);
+                    Lights.setPulseWidthOutputTime(1935);
+                    Lights.setPulseWidthOutputTime(1055);
 
                 }
                 else {
@@ -308,8 +304,8 @@
                 // Intake code
                 if(discoMode = true){
                     Lights.setPulseWidthOutputTime(2125);
-                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
-                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_WITH_GLITTER);
+                    Lights.setPulseWidthOutputTime(1935);
+                    Lights.setPulseWidthOutputTime(1055);
                 }
                 else {
 
