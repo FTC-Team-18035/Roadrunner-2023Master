@@ -36,31 +36,31 @@ public final class WingSideDeliverParkRed extends LinearOpMode {
                         .build());
 */
                 drive.MoveLift(100);
-                sleep(1000);
+                sleep(500);
                 drive.RotateArm(-90);
-                sleep(2000);
-                drive.MoveLift(1950);
-                sleep(2000);
-                drive.RotateArm(880);
                 sleep(1000);
+                drive.MoveLift(1950);
+                sleep(1000);
+                drive.RotateArm(880);
+                sleep(500);
                 drive.Claw1.setPosition(1);
                 sleep(400);
                 drive.Claw2.setPosition(1);
-                sleep(1000);
+                sleep(500);
                 drive.RotateArm(-90);
-                sleep(2000);
+                sleep(1500);
                 drive.MoveLift(100);
                 sleep(1000);
                 drive.RotateArm(0);
-                sleep(1000);
+                sleep(500);
                 drive.MoveLift(0);
 
-        sleep(3000);
+      //  sleep(500);  Do we actually need this??
         Actions.runBlocking(
                 drive.actionBuilder(new Pose2d(28,-90,0)) //If it still turns reset to 0 (Heading)
                         .strafeTo(new Vector2d(28,-84))
                         .waitSeconds(.5)
-                        .strafeTo(new Vector2d(47.5, -84))
+                        .strafeTo(new Vector2d(47, -84))
                         .build());
                 /*sleep(400);
 
