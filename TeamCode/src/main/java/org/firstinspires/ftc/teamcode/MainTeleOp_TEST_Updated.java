@@ -6,7 +6,7 @@
     import com.qualcomm.robotcore.hardware.DcMotor;
     import com.qualcomm.robotcore.hardware.DcMotorSimple;
     import com.qualcomm.robotcore.hardware.Servo;
-    import com.qualcomm.robotcore.hardware.PWMOutput;
+
     import com.qualcomm.robotcore.util.ElapsedTime;
     @TeleOp(name = "UPDATED Main TeleOP")
 
@@ -72,6 +72,7 @@
             DcMotor RightLiftMotor = hardwareMap.dcMotor.get("Lift2");   //Right lift
             DcMotor ArmRotationMotor = hardwareMap.dcMotor.get("ArmRotationMotor");//Arm Rotation
 
+
             DcMotor IntakeMotor = hardwareMap.dcMotor.get("IntakeMotor");//Intake
 
             lights = hardwareMap.get(RevBlinkinLedDriver.class, "lights");
@@ -115,6 +116,7 @@
             Claw2.setPosition(0);//Closes the claw
             Drone.setPosition(1);//Sets the drone launcher
             boolean discoMode = false;
+            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
             waitForStart();//Waits for us to hit play before continuing
             while (opModeIsActive()) {//Loops through everything until we hit stop
 

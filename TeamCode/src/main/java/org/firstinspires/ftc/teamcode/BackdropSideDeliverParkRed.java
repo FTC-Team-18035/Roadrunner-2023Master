@@ -19,10 +19,34 @@ public final class BackdropSideDeliverParkRed extends LinearOpMode {
 
         Actions.runBlocking(
                 drive.actionBuilder(new Pose2d(0, 0, 0))
-                        .strafeTo(new Vector2d(-28, -28))   //strafes to the backdrop
+                        .strafeTo(new Vector2d(-38.5, -28))   //strafes to the backdrop
                         // .strafeTo(new Vector2d(0,-26))  //drives right 26"
                         .build());
 
+        drive.MoveLift(100);
+        sleep(500);
+        drive.RotateArm(-90);
+        sleep(1000);
+        drive.MoveLift(1950);
+        sleep(1000);
+        drive.RotateArm(880);
+        sleep(500);
+        drive.Claw1.setPosition(1);
+        sleep(400);
+        drive.Claw2.setPosition(1);
+        sleep(500);
+        drive.RotateArm(-90);
+        sleep(1500);
+        drive.MoveLift(100);
+        sleep(1000);
+        drive.RotateArm(0);
+        sleep(500);
+        drive.MoveLift(0);
+
+        Actions.runBlocking(
+                drive.actionBuilder(new Pose2d(-38.5, -28, 0))
+                        .strafeTo(new Vector2d(-36.5, -3))   //strafes to park
+                        .build());
     }
 }
 
