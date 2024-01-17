@@ -126,8 +126,9 @@
                     rx = -gamepad1.left_stick_x; // Measures turning
                     ReverseDriveTime.reset();//Resets the time since the driving was reversed
                     ReverseDriveActive = false;//Sets if the robot's driving is reversed or not
-                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
-
+                   if(!discoMode) {
+                       lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+                   }
                 }
 
 
@@ -140,16 +141,15 @@
                     ReverseDriveTime.reset();//Resets the time since the driving was reversed
                     ReverseDriveActive = true;//Sets it the robot's driving is reversed or not
                     JustStarted = false;//Tells the robot that it has been reversed before
-                    //lights.;
-                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+                    if(!discoMode){
+                        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+                    }
+
                 }
                 if (gamepad1.left_stick_button == true) {
                     lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_WITH_GLITTER);
-
                 }
-                else {
 
-                }
                 telemetry.update();//Updates the telemetry on the driver hub
 
                 // calculate motor movement math and adjust according to lift height or manual precision mode selection
@@ -299,11 +299,8 @@
 
             }
                 // Intake code
-                if(discoMode = true){
+                if(discoMode){
                     lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_WITH_GLITTER);
-                }
-                else {
-
                 }
                 if (gamepad1.a && !IntakeRunning && IntakeTime.seconds() > 0.5) {//If the A button is pressed and intake is not running and it has been .5 seconds since the intake was shut off
                     IntakeMotor.setPower(1);//Turns the intake on
