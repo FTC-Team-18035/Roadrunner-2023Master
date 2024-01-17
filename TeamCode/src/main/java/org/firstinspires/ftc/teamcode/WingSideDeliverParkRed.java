@@ -25,8 +25,16 @@ public final class WingSideDeliverParkRed extends LinearOpMode {
                         .waitSeconds(.5)
                         .turnTo(Math.toRadians(90)) //turns 90 degrees counterclockwise
                         .strafeTo(new Vector2d(28, -86))    //moves left 16"
+                        .strafeTo(new Vector2d(28, -90))    //moves towards backdrop
                         .build());
 
+
+
+       /* Actions.runBlocking(
+                drive.actionBuilder(new Pose2d(0, 0, 0))
+                        .strafeTo(new Vector2d(-3,0))   //moves towards the backdrop
+                        .build());
+*/
                 drive.MoveLift(100);
                 sleep(1000);
                 drive.RotateArm(-90);
@@ -35,26 +43,28 @@ public final class WingSideDeliverParkRed extends LinearOpMode {
                 sleep(2000);
                 drive.RotateArm(880);
                 sleep(1000);
-
-        Actions.runBlocking(
-                drive.actionBuilder(new Pose2d(0, 0, 0))
-                        .strafeTo(new Vector2d(-3,0))   //moves forward 49.5"
-                        .build());
-
-
                 drive.Claw1.setPosition(1);
                 sleep(400);
                 drive.Claw2.setPosition(1);
-                sleep(100);
-                drive.actionBuilder(new Pose2d(0,0,0))
-                        .strafeTo(new Vector2d(3,0))
-                        .build();
-                sleep(400);
+                sleep(1000);
                 drive.RotateArm(-90);
+                sleep(2000);
                 drive.MoveLift(100);
+                sleep(1000);
                 drive.RotateArm(0);
+                sleep(1000);
                 drive.MoveLift(0);
 
+        sleep(3000);
+        Actions.runBlocking(
+                drive.actionBuilder(new Pose2d(28,-90,0)) //If it still turns reset to 0 (Heading)
+                        .strafeTo(new Vector2d(28,-84))
+                        .waitSeconds(.5)
+                        .strafeTo(new Vector2d(47.5, -84))
+                        .build());
+                /*sleep(400);
+
+        */
 
     }
 }
