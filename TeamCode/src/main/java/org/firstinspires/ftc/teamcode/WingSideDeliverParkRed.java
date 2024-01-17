@@ -2,7 +2,6 @@
 //This package and the following imports are required.
 package org.firstinspires.ftc.teamcode;
 
-import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
@@ -39,7 +38,7 @@ public final class WingSideDeliverParkRed extends LinearOpMode {
 
         Actions.runBlocking(
                 drive.actionBuilder(new Pose2d(0, 0, 0))
-                        .strafeTo(new Vector2d(-3,0))  //Moves towards the backdrop
+                        .strafeTo(new Vector2d(-3,0))   //moves forward 49.5"
                         .build());
 
 
@@ -47,11 +46,9 @@ public final class WingSideDeliverParkRed extends LinearOpMode {
                 sleep(400);
                 drive.Claw2.setPosition(1);
                 sleep(100);
-
-        Actions.runBlocking(
                 drive.actionBuilder(new Pose2d(0,0,0))
                         .strafeTo(new Vector2d(3,0))
-                        .build());
+                        .build();
                 sleep(400);
                 drive.RotateArm(-90);
                 drive.MoveLift(100);
