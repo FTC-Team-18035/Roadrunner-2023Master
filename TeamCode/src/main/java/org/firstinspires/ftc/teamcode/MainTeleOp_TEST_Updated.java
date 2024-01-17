@@ -14,7 +14,7 @@
 
     public class MainTeleOp_TEST_Updated extends LinearOpMode {
         // Final variables (Meaning they don't change)
-        private PWMOutput Lights;
+        //public PWMOutput Lights;
         static final double COUNTS_PER_MOTOR_REV = 288;    // eg: TETRIX Motor Encoder
         static final double DRIVE_GEAR_REDUCTION = 1;     // This is < 1.0 if geared UP
         static final double WHEEL_DIAMETER_INCHES = .5;     // For figuring circumference
@@ -53,13 +53,13 @@
         private boolean JustStarted = true;
 
         public double y, x, rx;
-       // RevBlinkinLedDriver lights;
+        RevBlinkinLedDriver lights;
 
         @Override
         public void runOpMode() throws InterruptedException {
             // Declare our motors
             // Make sure your ID's match your configuration
-            Lights = hardwareMap.get(PWMOutput.class, "Lights");
+            // Lights = hardwareMap.get(PWMOutput.class, "Lights");
             DcMotor Fleft = hardwareMap.dcMotor.get("Fleft");//Front left wheel
             DcMotor Bleft = hardwareMap.dcMotor.get("Bleft");//Back left wheel
             DcMotor Fright = hardwareMap.dcMotor.get("Fright");//Front right wheel
@@ -114,7 +114,6 @@
             Claw2.setPosition(0);//Closes the claw
             Drone.setPosition(1);//Sets the drone launcher
             boolean discoMode = false;
-            int frequency = 1/2125/1000000;
             waitForStart();//Waits for us to hit play before continuing
             while (opModeIsActive()) {//Loops through everything until we hit stop
 
@@ -124,9 +123,8 @@
                     rx = -gamepad1.left_stick_x; // Measures turning
                     ReverseDriveTime.reset();//Resets the time since the driving was reversed
                     ReverseDriveActive = false;//Sets if the robot's driving is reversed or not
-                    Lights.setPulseWidthOutputTime(2125);
-                    Lights.setPulseWidthOutputTime(1935);
-                    Lights.setPulseWidthOutputTime(1885);
+                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+
                 }
 
 
@@ -140,14 +138,10 @@
                     ReverseDriveActive = true;//Sets it the robot's driving is reversed or not
                     JustStarted = false;//Tells the robot that it has been reversed before
                     //lights.;
-                    Lights.setPulseWidthOutputTime(2125);
-                    Lights.setPulseWidthOutputTime(1935);
-                    Lights.setPulseWidthOutputTime(1805);
+                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
                 }
                 if (gamepad1.left_stick_button == true) {
-                    Lights.setPulseWidthOutputTime(2125);
-                    Lights.setPulseWidthOutputTime(1935);
-                    Lights.setPulseWidthOutputTime(1055);
+                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_WITH_GLITTER);
 
                 }
                 else {
@@ -303,9 +297,7 @@
             }
                 // Intake code
                 if(discoMode = true){
-                    Lights.setPulseWidthOutputTime(2125);
-                    Lights.setPulseWidthOutputTime(1935);
-                    Lights.setPulseWidthOutputTime(1055);
+                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_WITH_GLITTER);
                 }
                 else {
 
