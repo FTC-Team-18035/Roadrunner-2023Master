@@ -7,7 +7,7 @@
     import com.qualcomm.robotcore.hardware.DcMotorSimple;
     import com.qualcomm.robotcore.hardware.Servo;
     import com.qualcomm.robotcore.util.ElapsedTime;
-    @TeleOp(name = "Main TeleOp")
+    @TeleOp(name = "OLD Main TeleOp")
 
     // This opmode has framework for all systems included
 
