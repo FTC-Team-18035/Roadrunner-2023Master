@@ -74,6 +74,7 @@
 
             DcMotor IntakeMotor = hardwareMap.dcMotor.get("IntakeMotor");//Intake
 
+            lights = hardwareMap.get(RevBlinkinLedDriver.class, "lights");
             // Reverse the right side motors
 
              Bleft.setDirection(DcMotorSimple.Direction.REVERSE);//Reverses the direction the motor turns
