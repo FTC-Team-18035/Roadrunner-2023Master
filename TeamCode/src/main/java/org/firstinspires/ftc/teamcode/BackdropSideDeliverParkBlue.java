@@ -8,7 +8,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous
+@Autonomous(name = "Backdrop Side Blue")
 //Replace "Template" with your new program's file name.
 public final class BackdropSideDeliverParkBlue extends LinearOpMode {
     public void runOpMode() throws InterruptedException {

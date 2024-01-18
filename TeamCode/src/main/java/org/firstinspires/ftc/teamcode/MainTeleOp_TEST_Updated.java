@@ -8,7 +8,7 @@
     import com.qualcomm.robotcore.hardware.Servo;
 
     import com.qualcomm.robotcore.util.ElapsedTime;
-    @TeleOp(name = "UPDATED Main TeleOP")
+    @TeleOp(name = "Main TeleOP")
 
     // This opmode has framework for all systems included
 
