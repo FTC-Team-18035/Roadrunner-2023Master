@@ -19,6 +19,7 @@ public final class WingSideDeliverParkBlue extends LinearOpMode {
 
         Actions.runBlocking(
                 drive.actionBuilder(new Pose2d(0, 0, 0))
+                        .waitSeconds(5)
                         .strafeTo(new Vector2d(44,0))   //moves forward 49.5"
                         .waitSeconds(.5)
                         .strafeTo(new Vector2d(44,86)) //moves left 86"
@@ -60,7 +61,7 @@ public final class WingSideDeliverParkBlue extends LinearOpMode {
                 drive.actionBuilder(new Pose2d(28,90,0)) //If it still turns reset to 0 (Heading)
                         .strafeTo(new Vector2d(28,84))
                         .waitSeconds(.5)
-                        .strafeTo(new Vector2d(47, 84))
+                        .strafeTo(new Vector2d(46, 84))
                         .build());
         /*sleep(400);
 
