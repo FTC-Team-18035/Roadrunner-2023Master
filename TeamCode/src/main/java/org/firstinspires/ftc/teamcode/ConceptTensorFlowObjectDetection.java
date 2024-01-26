@@ -64,11 +64,11 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
     private static final String[] LABELS = {
        "Pixel",
     };
-    public String label;
-    public double objectDistanceX;
-    public double objectDistanceY;
+    public String label;//Saves the name of the detected object (In this case "Pixel")
+    public double objectDistanceX;//Saves the X of the detected object
+    public double objectDistanceY;//Saves the Y of the detected object
 
-    public DcMotor motor1, motor2;
+    public DcMotor motor1, motor2; //Testing motors
     /**
      * The variable to store our instance of the TensorFlow Object Detection processor.
      */
@@ -84,8 +84,8 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
 
 
         initTfod();
-        motor1 = hardwareMap.dcMotor.get("motor1");
-        motor2 = hardwareMap.dcMotor.get("motor2");
+        motor1 = hardwareMap.dcMotor.get("motor1");//Initialization of test motor 1
+        motor2 = hardwareMap.dcMotor.get("motor2");//Initialization of test motor 2
 
         // Wait for the DS start button to be touched.
         telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
@@ -195,28 +195,28 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
             double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
             double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
 
-            label = recognition.getLabel();
-            objectDistanceX = x;
-            objectDistanceY = y;
+            label = recognition.getLabel();//Saves the Object's "label" to our variable label to make it public
+            objectDistanceX = x;//Saves the object's X position to our objectDistanceX to make it public
+            objectDistanceY = y;//Saves the object's Y position to our objectDistanceY to make it public
             telemetry.addData(""," ");
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
 
-            if(label == "Pixel"){
-                if(objectDistanceX >= 100){
-                    motor1.setPower(1);
+            if(label == "Pixel"){//Checks to see if something has been detected (If nothing has been label is empty ""
+                if(objectDistanceX >= 100){//The thought was if the robot move left far enough this would become false
+                    motor1.setPower(1);//Sets the power of the motor
                 }
-                else{
-                    motor1.setPower(0);
+                else{//This doesn't run because X never becomes less than 100 for some reason
+                    motor1.setPower(0);//Stops the motor
                 }
-                if(objectDistanceY >= 100){
-                    motor2.setPower(1);
+                if(objectDistanceY >= 100){//This is supposed to check if we are far enough forward towards the pixel but never became true
+                    motor2.setPower(1);//Sets the power of the motor to 1
                 }
-                else{
-                    motor2.setPower(0);
+                else{//This doesn't run because it never dropped below 100
+                    motor2.setPower(0);//This stoops the motor
                 }
-
+                //The X and Y never really dropped below 200. Or went over 300
             }
         }   // end for() loop
 
