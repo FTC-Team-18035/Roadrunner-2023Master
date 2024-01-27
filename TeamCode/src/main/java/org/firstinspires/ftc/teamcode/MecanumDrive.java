@@ -31,6 +31,7 @@ import com.acmerobotics.roadrunner.ftc.OverflowEncoder;
 import com.acmerobotics.roadrunner.ftc.PositionVelocityPair;
 import com.acmerobotics.roadrunner.ftc.RawEncoder;
 import com.qualcomm.hardware.lynx.LynxModule;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -112,6 +113,7 @@ public final class MecanumDrive {
     public DcMotor LeftLiftMotor, RightLiftMotor, ArmRotationMotor;
     public DcMotor IntakeMotor;
     public Servo Claw1, Claw2, Drone;
+    public RevBlinkinLedDriver lights;
     public final VoltageSensor voltageSensor;
 
     public final IMU imu;
@@ -218,6 +220,7 @@ public final class MecanumDrive {
         Claw1 = hardwareMap.get(Servo.class, "Claw1");
         Claw2 = hardwareMap.get(Servo.class, "Claw2");
         Drone = hardwareMap.get(Servo.class, "Drone");
+        lights = hardwareMap.get(RevBlinkinLedDriver.class, "lights");
 
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -528,5 +531,8 @@ public final class MecanumDrive {
     public void RotateArm(int targetPos){
         ArmRotationMotor.setTargetPosition(targetPos);
         ArmRotationMotor.setPower(1);
+    }
+    public void Lights(RevBlinkinLedDriver.BlinkinPattern pattern){
+        lights.setPattern(pattern);
     }
 }
