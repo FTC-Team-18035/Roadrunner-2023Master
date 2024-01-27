@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -68,7 +69,12 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
     public double objectDistanceX;//Saves the X of the detected object
     public double objectDistanceY;//Saves the Y of the detected object
 
-    public DcMotor motor1, motor2; //Testing motors
+    public int DetetcionLeft = 100;
+    public int DetectionMiddle = 250;
+    public int DetectionRight = 350;
+
+    RevBlinkinLedDriver lights;
+    //public DcMotor motor1, motor2; //Testing motors
     /**
      * The variable to store our instance of the TensorFlow Object Detection processor.
      */
@@ -84,15 +90,16 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
 
 
         initTfod();
-        motor1 = hardwareMap.dcMotor.get("motor1");//Initialization of test motor 1
-        motor2 = hardwareMap.dcMotor.get("motor2");//Initialization of test motor 2
+       // motor1 = hardwareMap.dcMotor.get("motor1");//Initialization of test motor 1
+        //motor2 = hardwareMap.dcMotor.get("motor2");//Initialization of test motor 2
+        lights = hardwareMap.get(RevBlinkinLedDriver.class, "lights");
 
         // Wait for the DS start button to be touched.
         telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
         telemetry.addData(">", "Touch Play to start OpMode");
         telemetry.update();
         waitForStart();
-
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
         if (opModeIsActive()) {
             while (opModeIsActive()) {
 
@@ -175,7 +182,7 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
         visionPortal = builder.build();
 
         // Set confidence threshold for TFOD recognitions, at any time.
-        //tfod.setMinResultConfidence(0.75f);
+        tfod.setMinResultConfidence(0.40f);
 
         // Disable or re-enable the TFOD processor at any time.
         //visionPortal.setProcessorEnabled(tfod, true);
@@ -194,8 +201,9 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
         for (Recognition recognition : currentRecognitions) {
             double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
             double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
-
-            label = recognition.getLabel();//Saves the Object's "label" to our variable label to make it public
+            if(recognition.getConfidence() >= .10) {
+                label = recognition.getLabel();//Saves the Object's "label" to our variable label to make it public
+            }
             objectDistanceX = x;//Saves the object's X position to our objectDistanceX to make it public
             objectDistanceY = y;//Saves the object's Y position to our objectDistanceY to make it public
             telemetry.addData(""," ");
@@ -203,23 +211,22 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
 
-            if(label == "Pixel"){//Checks to see if something has been detected (If nothing has been label is empty ""
-                if(objectDistanceX >= 100){//The thought was if the robot move left far enough this would become false
-                    motor1.setPower(1);//Sets the power of the motor
+            if(label == "Pixel") {//Checks to see if something has been detected (If nothing has been label is empty ""
+                if (objectDistanceX <= 100) {//The thought was if the robot move left far enough this would become false
+                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE_GREEN);
+                } else if (objectDistanceX > 100 && objectDistanceX < 500) {//This is supposed to check if we are far enough forward towards the pixel but never became true
+                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
+                } else if (objectDistanceX > 500)
+                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.CONFETTI);
                 }
-                else{//This doesn't run because X never becomes less than 100 for some reason
-                    motor1.setPower(0);//Stops the motor
-                }
-                if(objectDistanceY >= 100){//This is supposed to check if we are far enough forward towards the pixel but never became true
-                    motor2.setPower(1);//Sets the power of the motor to 1
-                }
-                else{//This doesn't run because it never dropped below 100
-                    motor2.setPower(0);//This stoops the motor
-                }
+            else{
+                lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+            }
                 //The X and Y never really dropped below 200. Or went over 300
             }
         }   // end for() loop
 
     }   // end method telemetryTfod()
 
-}   // end class
+
+    // end class
