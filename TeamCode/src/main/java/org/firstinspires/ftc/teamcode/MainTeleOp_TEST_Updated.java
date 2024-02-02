@@ -112,8 +112,6 @@
 
             ArmRotationMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//Sets the motor to be locked when stopped
 
-            Claw1.setPosition(0);//Closes the claw
-            Claw2.setPosition(0);//Closes the claw
             Drone.setPosition(1);//Sets the drone launcher
             boolean discoMode = false;
             lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);

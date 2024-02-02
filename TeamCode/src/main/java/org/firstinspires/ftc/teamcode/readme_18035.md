@@ -4,47 +4,47 @@ This Master Plan should be updated as elements are planned and ALL code should f
 
 CONTROL HUB -----------------------------------------------------------------------------------------------  
 
-  Motor Port 0 - Front Left Motor  / "Fleft"  (name used in robot config) / Front Left wheel
+  Motor Port 0 - Front Left Motor  / "Fleft" <---- (name used in robot config) / Front Left wheel
   
-  Motor Port 1 - Front Right Motor / "Fright"  (name used in robot config) / Front Right wheel
+  Motor Port 1 - Front Right Motor / "Fright" <---- (name used in robot config) / Front Right wheel
   
-  Motor Port 2 - Back Left Motor / "Bright"  (name used in robot config) / Back Right wheel
+  Motor Port 2 - Back Left Motor / "Bright" <---- (name used in robot config) / Back Right wheel
   
-  Motor Port 3 - Back Right Motor / "Bleft"  (name used in robot config) / Back Left wheel
+  Motor Port 3 - Back Right Motor / "Bleft" <---- (name used in robot config) / Back Left wheel
 
 
-  Servo Port 0 - "______" servo position) / "______"  (name used in robot config) / "______" (code variable)
+  Servo Port 0 - "Drone Launcher" <---- servo position) / "Drone" <---- (name used in robot config) / "Drone" <---- (code variable)
  
-  Servo Port 1 - "______" servo position) / "______"  (name used in robot config) / "______" (code variable)
+  Servo Port 1 - "Lights" <---- servo position) / "lights" <---- (name used in robot config) / "lights" <---- (code variable)
   
-  Servo Port 2 - "______" servo position) / "______"  (name used in robot config) / "______" (code variable)
+  Servo Port 2 - "" <---- servo position) / "" <---- (name used in robot config) / "" <---- (code variable)
   
-  Servo Port 3 - "______" servo position) / "______"  (name used in robot config) / "______" (code variable)  
+  Servo Port 3 - "" <---- servo position) / "" <---- (name used in robot config) / "" <---- (code variable)
   
-  Servo Port 4 - "______" servo position) / "______"  (name used in robot config) / "______" (code variable)
-  
-  Servo Port 5 - "______" servo position) / "______"  (name used in robot config) / "______" (code variable)
+  Servo Port 4 - "Top Claw" <---- servo position) / "Claw2" <---- (name used in robot config) / "Claw1" <---- (code variable)
+
+  Servo Port 5 - "Bottom Claw" <---- servo position) / "Claw1" <---- (name used in robot config) / "Claw2" <---- (code variable)
 
 
 EXPANSION HUB ---------------------------------------------------------------------------------------------
 
-  Motor Port 0 - Left Lift motor / "LeftLiftMotor"  (name used in robot config) / mode/direction??
+  Motor Port 0 - Left Lift motor / "Lift1" <---- (name used in robot config) / mode/direction??
   
-  Motor Port 1 - Right lift motor / "RightLiftMotor"  (name used in robot config) / mode/direction??     
+  Motor Port 1 - Right lift motor / "Lift2" <---- (name used in robot config) / mode/direction??     
   
-  Motor Port 2 - Arm rotation motor / "ArmRotationMotor"  (name used in robot config) / mode/direction??      
+  Motor Port 2 - Arm rotation motor / "ArmRotationMotor" <---- (name used in robot config) / mode/direction??      
   
-  Motor Port 3 - Intake Roller motor / "IntakeMotor"  (name used in robot config) / mode/direction??
+  Motor Port 3 - Intake Roller motor / "IntakeMotor" <---- (name used in robot config) / mode/direction??
 
 
-  Servo Port 0 - Front Claw Servo / "Claw1"  (name used in robot config) / 
+  Servo Port 0 - "" <---- servo position) / "" <---- (name used in robot config) / "" <---- (code variable) 
 
-  Servo Port 1 - Back Claw Servo / "Claw2"  (name used in robot config) /
+  Servo Port 1 - "" <---- servo position) / "" <---- (name used in robot config) / "" <---- (code variable)
   
-  Servo Port 2 - Intake Bottom Servo / "IntakeServo"  (name used in robot config) / constant rotation mode
+  Servo Port 2 - "" <---- servo position) / "" <---- (name used in robot config) / "" <---- (code variable)
   
-  Servo Port 3 - Drone Servo / "DroneServo"  (name used in robot config) /   
+  Servo Port 3 - "" <---- servo position) / "" <---- (name used in robot config) / "" <---- (code variable)
   
-  Servo Port 4 - "______" servo position) / "______"  (name used in robot config) / "______" (code variable)
+  Servo Port 4 - "" <---- servo position) / "" <---- (name used in robot config) / "" <---- (code variable)
   
-  Servo Port 5 - "______" servo position) / "______"  (name used in robot config) / "______" (code variable)  
+  Servo Port 5 - "" <---- servo position) / "" <---- (name used in robot config) / "" <---- (code variable)
