@@ -101,20 +101,16 @@
                 }
 
                 if (gamepad1.x)  IntakeMotor.setPower(.1);              // The intake rollers are reversed
-                if(gamepad1.y)   IntakeMotor.setPower(.05);
-                if(gamepad1.b)   IntakeMotor.setPower(.010);
-                if(gamepad1.a)   IntakeMotor.setPower(.015);
-                if(gamepad1.dpad_down)   IntakeMotor.setPower(.020);
-                if(gamepad1.dpad_right)   IntakeMotor.setPower(.025);
-                if(gamepad1.dpad_up)   IntakeMotor.setPower(.030);
-                if(gamepad1.dpad_left)   IntakeMotor.setPower(.035);
-                if(gamepad1.left_bumper)   IntakeMotor.setPower(.040);
-                if(gamepad1.right_bumper)   IntakeMotor.setPower(.045);
-                if(gamepad1.right_trigger == 1)   IntakeMotor.setPower(.050);
-                if(gamepad1.left_trigger == 1)   IntakeMotor.setPower(.055);
-                if(gamepad1.options)   IntakeMotor.setPower(.060);
-                if(gamepad1.share)   IntakeMotor.setPower(.065);
-                if(gamepad1.ps)   IntakeMotor.setPower(0);
+                if(gamepad1.y)   IntakeMotor.setPower(.2);
+                if(gamepad1.b)   IntakeMotor.setPower(.3);
+                if(gamepad1.a)   IntakeMotor.setPower(.4);
+                if(gamepad1.dpad_down)   IntakeMotor.setPower(.5);
+                if(gamepad1.dpad_right)   IntakeMotor.setPower(.6);
+                if(gamepad1.dpad_up)   IntakeMotor.setPower(.7);
+                if(gamepad1.dpad_left)   IntakeMotor.setPower(.8);    // .5 Intake power For autonomous purple pixel delivery
+                if(gamepad1.left_bumper)   IntakeMotor.setPower(.9);
+                if(gamepad1.right_bumper)   IntakeMotor.setPower(1);
+                if(gamepad1.right_trigger == 1)   IntakeMotor.setPower(0);
                 // issue motor power
 
                 Fleft.setPower(frontLeftPower);//Sets the front left wheel's power
