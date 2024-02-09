@@ -10,6 +10,7 @@
 
     @TeleOp(name = "Intake Speed Test")
 
+    //Put TFLITE files in the assets folder in RobotController
     // This opmode has framework for all systems included
 
     public class ReverseIntakeSpeedTest extends LinearOpMode {
