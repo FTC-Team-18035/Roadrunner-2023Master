@@ -12,14 +12,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
-
+@Disabled
 @Autonomous
 //Replace "Template" with your new program's file name.
 public final class LateralPushTelemetry extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
-        DcMotor Par0 = hardwareMap.get(DcMotor.class, "Fleft");
-        DcMotor Par1 = hardwareMap.get(DcMotor.class, "Bleft");
-        DcMotor Perp = hardwareMap.get(DcMotor.class, "IntakeMotor");
+        DcMotor PerpEncoder = hardwareMap.get(DcMotor.class, "Fright");
 
         waitForStart();
 
@@ -28,14 +26,10 @@ public final class LateralPushTelemetry extends LinearOpMode {
             while (opModeIsActive()) {
 
 
-                double Par0T = Par0.getCurrentPosition();
-                double Par1T = Par1.getCurrentPosition();
-                double PerpT = Perp.getCurrentPosition();
+                double Ticks = PerpEncoder.getCurrentPosition();
 
                 telemetry.update();
-                telemetry.addData("Par 0 ticks:", Par0T);
-                telemetry.addData("Par 1 ticks:", Par1T);
-                telemetry.addData("Perp ticks", PerpT);
+                telemetry.addData("Current Ticks", Ticks);
 
             }
         }
