@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+
 
 @Autonomous
 //Replace "Template" with your new program's file name.
@@ -27,7 +29,7 @@ public final class WingSideAutonomous extends LinearOpMode {
                             //reverse intake at .5 power
                             .strafeTo(new Vector2d(-43.32281809,79.22288262))
                             .turn(Math.toRadians(-89))
-                            .strafeTo(new Vector2d(-43.32281809-25.6249204,79.22288262))
+                            .strafeTo(new Vector2d(-43.32281809+25.6249204,79.22288262))
                             .build());
 
             drive.MoveLift(100);
@@ -41,8 +43,8 @@ public final class WingSideAutonomous extends LinearOpMode {
 
 
             Actions.runBlocking(
-                    drive.actionBuilder(new Pose2d(-43.32281809-25.6249204, 79.22288262, -89))
-                            .strafeTo(new Vector2d(-43.32281809-25.6249204, 79.22288262+5))
+                    drive.actionBuilder(new Pose2d(-43.32281809+25.6249204, 79.22288262, -89))
+                            .strafeTo(new Vector2d(-43.32281809+25.6249204, 79.22288262+5))
                             .build());
 
             drive.Claw1.setPosition(1);
