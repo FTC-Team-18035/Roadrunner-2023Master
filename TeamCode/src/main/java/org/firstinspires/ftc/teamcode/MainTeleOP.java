@@ -10,7 +10,7 @@
   @Disabled
     @TeleOp(name = "OLD Main TeleOp")
 
-//Go Back here if stuff gets messed up after 3 wheel odometry
+
     // This opmode has framework for all systems included
 
     public class MainTeleOP extends LinearOpMode {
