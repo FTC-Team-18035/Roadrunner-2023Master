@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 @Autonomous
-public final class RRAccTest50 extends LinearOpMode {
+public final class RR3WheelFullSystemTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
 
@@ -18,7 +18,7 @@ public final class RRAccTest50 extends LinearOpMode {
                 drive.actionBuilder(new Pose2d(0, 0, 0))
                         .strafeTo(new Vector2d(-44.37434279705573,0))
                         .turnTo(Math.toRadians(-90))
-                        .strafeTo(new Vector2d(-44.37434279705573, -12.8286014721346))
+                        .strafeTo(new Vector2d(-44.37434279705573, 12.8286014721346))
                         .build());
         drive.MoveLift(100);
         sleep(500);
@@ -40,8 +40,8 @@ public final class RRAccTest50 extends LinearOpMode {
         sleep(500);
         drive.MoveLift(0);
         Actions.runBlocking(
-                drive.actionBuilder(new Pose2d(0, 0, 0))
-
+                drive.actionBuilder(new Pose2d(-44.37434279705573, -12.8286014721346,Math.toRadians(-90)))
+                        .turn(Math.toRadians(90))
                         .build());
     }
 }
