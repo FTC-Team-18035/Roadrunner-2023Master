@@ -535,4 +535,6 @@ public final class MecanumDrive {
     public void Lights(RevBlinkinLedDriver.BlinkinPattern pattern){
         lights.setPattern(pattern);
     }
+
+    public void ActivateIntake(double power){ IntakeMotor.setPower(power); }
 }
