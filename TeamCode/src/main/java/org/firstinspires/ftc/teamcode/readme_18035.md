@@ -8,9 +8,9 @@ CONTROL HUB --------------------------------------------------------------------
   
   Motor Port 1 - Front Right Motor / "Fright" <---- (name used in robot config) / Front Right wheel
   
-  Motor Port 2 - Back Left Motor / "Bright" <---- (name used in robot config) / Back Right wheel
+  Motor Port 2 - Back Left Motor / "Bleft" <---- (name used in robot config) / Back Right wheel
   
-  Motor Port 3 - Back Right Motor / "Bleft" <---- (name used in robot config) / Back Left wheel
+  Motor Port 3 - Back Right Motor / "Bright" <---- (name used in robot config) / Back Left wheel
 
 
   Servo Port 0 - "Drone Launcher" <---- servo position) / "Drone" <---- (name used in robot config) / "Drone" <---- (code variable)
