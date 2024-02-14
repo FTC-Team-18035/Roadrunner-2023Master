@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name = "Scan Master Class Test")
+
 public class ScanAndRoadRunnerTest extends LinearOpMode {
     //Testing
 	int Parking = 0; //0 = right side of backdrop and 1 = left side of backdrop
