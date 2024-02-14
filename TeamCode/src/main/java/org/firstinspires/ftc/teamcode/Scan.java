@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.tel
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -16,19 +17,21 @@ import java.util.List;
 
 @Config
 public final class Scan {
+    ElapsedTime scanTime = new ElapsedTime();
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
-    private static final String TFOD_MODEL_ASSET = "MyModelStoredAsAsset.tflite";
+    private static final String TFOD_MODEL_ASSET = "TeamProp2024-Take2.tflite";
     // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
     // this is used when uploading models directly to the RC using the model upload interface.
-    private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/myCustomModel.tflite";
+    private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/TeamProp2024-Take2.tflite";
     // Define the labels recognized in the model for TFOD (must be in training order!)
     private static final String[] LABELS = {
-            "Pixel",
+            "BlueProp",
+            "RedProp"
     };
-    public String label;//Saves the name of the detected object (In this case "Pixel")
+    public String label = null;//Saves the name of the detected object (In this case "Pixel")
     public double objectDistanceX;//Saves the X of the detected object
     public String location;
     public double objectDistanceY;//Saves the Y of the detected object
@@ -65,12 +68,12 @@ public final class Scan {
                 // choose one of the following:
                 //   Use setModelAssetName() if the custom TF Model is built in as an asset (AS only).
                 //   Use setModelFileName() if you have downloaded a custom team model to the Robot Controller.
-                //.setModelAssetName(TFOD_MODEL_ASSET)
+                .setModelAssetName(TFOD_MODEL_ASSET)
                 //.setModelFileName(TFOD_MODEL_FILE)
 
                 // The following default settings are available to un-comment and edit as needed to
                 // set parameters for custom models.
-                //.setModelLabels(LABELS)
+                .setModelLabels(LABELS)
                 //.setIsModelTensorFlow2(true)
                 //.setIsModelQuantized(true)
                 //.setModelInputSize(300)
@@ -109,7 +112,7 @@ public final class Scan {
         visionPortal = builder.build();
 
         // Set confidence threshold for TFOD recognitions, at any time.
-        tfod.setMinResultConfidence(0.40f);
+        tfod.setMinResultConfidence(0.80f);
 
         // Disable or re-enable the TFOD processor at any time.
         //visionPortal.setProcessorEnabled(tfod, true);
@@ -138,18 +141,18 @@ public final class Scan {
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
 
-            if (label == "Pixel") {
-                if(objectDistanceX <= 100 && scanned != true){
-                    scanned = true;
-                    location = "Left";
-                }
-                else if(objectDistanceX > 100 && objectDistanceX > 500 != true){
-                    scanned = true;
+            if (label == "RedProp" || label == "BlueProp") {
+                if(objectDistanceX >= 100 && objectDistanceX <= 450){
                     location = "Middle";
                 }
-                else if(objectDistanceX > 500 != true){
-                    scanned = true;
+                else if(objectDistanceX > 450 && objectDistanceX > 600){
                     location = "Right";
+                }
+            }
+            else if(label == null){
+                scanTime.reset();
+                 if(scanTime.seconds() >= 5.0){
+                    location = "Left";
                 }
             }
         }

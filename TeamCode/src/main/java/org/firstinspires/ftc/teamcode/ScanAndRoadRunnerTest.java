@@ -5,7 +5,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-@Autonomous(name = "Scan And Roadrunner Test")
+@Autonomous(name = "Scan Master Class Test")
 public class ScanAndRoadRunnerTest extends LinearOpMode {
 //Testing
     public void runOpMode() {
@@ -15,7 +15,6 @@ public class ScanAndRoadRunnerTest extends LinearOpMode {
         scan.Initialize();
         waitForStart();
 
-        if (scan.label == "Pixel") {
             if(scan.location == "Left") {
                drive.lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE_GREEN);
                 // Actions.runBlocking(
@@ -26,8 +25,7 @@ public class ScanAndRoadRunnerTest extends LinearOpMode {
                 drive.lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
             }
             else if(scan.location == "Right"){
-                drive.lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.CONFETTI);
+                drive.lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
             }
         }
     }
-}
