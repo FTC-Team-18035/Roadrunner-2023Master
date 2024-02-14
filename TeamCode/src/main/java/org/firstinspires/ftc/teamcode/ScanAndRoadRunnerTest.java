@@ -13,6 +13,7 @@ public class ScanAndRoadRunnerTest extends LinearOpMode {
         Scan scan = new Scan();
 
         scan.Initialize();
+        scan.telemetryTfod();
         waitForStart();
 
             if(scan.location == "Left") {
