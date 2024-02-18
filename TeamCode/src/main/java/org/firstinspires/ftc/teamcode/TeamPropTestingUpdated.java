@@ -216,9 +216,9 @@ public class TeamPropTestingUpdated extends LinearOpMode {
                 } else if (objectDistanceX > 450 && objectDistanceX < 600) {//This is supposed to check if we are far enough forward towards the pixel but never became true
                     lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
                 }
-                else {
-                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
-                }
+            else {
+                lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+            }
                 //The X and Y never really dropped below 200. Or went over 300
             }
         }   // end for() loop
