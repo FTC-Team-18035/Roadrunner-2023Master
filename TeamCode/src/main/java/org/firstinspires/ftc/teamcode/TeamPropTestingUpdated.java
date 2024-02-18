@@ -48,7 +48,7 @@ import java.util.List;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@TeleOp(name = "CustomPropDetectionTest", group = "Concept")
+@TeleOp
 public class TeamPropTestingUpdated extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
@@ -215,7 +215,8 @@ public class TeamPropTestingUpdated extends LinearOpMode {
                     lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE_GREEN);
                 } else if (objectDistanceX > 450 && objectDistanceX < 600) {//This is supposed to check if we are far enough forward towards the pixel but never became true
                     lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
-                } else {
+                }
+                else {
                     lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
                 }
                 //The X and Y never really dropped below 200. Or went over 300
