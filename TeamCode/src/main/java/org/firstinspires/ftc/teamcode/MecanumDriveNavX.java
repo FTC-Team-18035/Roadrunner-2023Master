@@ -35,6 +35,8 @@ import com.acmerobotics.roadrunner.ftc.LynxFirmware;
 import com.acmerobotics.roadrunner.ftc.OverflowEncoder;
 import com.acmerobotics.roadrunner.ftc.PositionVelocityPair;
 import com.acmerobotics.roadrunner.ftc.RawEncoder;
+import com.kauailabs.navx.ftc.AHRS;
+import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
@@ -91,15 +93,16 @@ public final class MecanumDriveNavX {
         // path controller gains
         public double axialGain = .12;
         public double lateralGain = 2.5;
-        public double headingGain = 22; // shared with turn
+        public double headingGain = 0; // shared with turn //22
 
         public double axialVelGain = .015;
         public double lateralVelGain = 1.5;
-        public double headingVelGain = .25; // shared with turn
+        public double headingVelGain = 0; // shared with turn //.25
 
     }
 
     public static Params PARAMS = new Params();
+
 
     public final MecanumKinematics kinematics = new MecanumKinematics(
             PARAMS.inPerTick * PARAMS.trackWidthTicks, PARAMS.inPerTick / PARAMS.lateralInPerTick);
@@ -121,7 +124,7 @@ public final class MecanumDriveNavX {
     public RevBlinkinLedDriver lights;
     public final VoltageSensor voltageSensor;
 
-    public final IMU imu;
+    public AHRS navxImu;
 
     public final Localizer localizer;
     public Pose2d pose;
@@ -153,7 +156,7 @@ public final class MecanumDriveNavX {
             lastRightBackPos = rightBack.getPositionAndVelocity().position;
             lastRightFrontPos = rightFront.getPositionAndVelocity().position;
 
-            lastHeading = Rotation2d.exp(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+            lastHeading = Rotation2d.exp((Math.toRadians(navxImu.getYaw())));
         }
 
         @Override
@@ -166,7 +169,7 @@ public final class MecanumDriveNavX {
             FlightRecorder.write("MECANUM_ENCODERS", new MecanumEncodersMessage(
                     leftFrontPosVel, leftBackPosVel, rightBackPosVel, rightFrontPosVel));
 
-            Rotation2d heading = Rotation2d.exp(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+            Rotation2d heading = Rotation2d.exp(Math.toRadians(navxImu.getYaw()));
             double headingDelta = heading.minus(lastHeading);
 
             Twist2dDual<Time> twist = kinematics.forward(new MecanumKinematics.WheelIncrements<>(
@@ -227,6 +230,9 @@ public final class MecanumDriveNavX {
         Drone = hardwareMap.get(Servo.class, "Drone");
         lights = hardwareMap.get(RevBlinkinLedDriver.class, "lights");
 
+        navxImu = AHRS.getInstance(hardwareMap.get(NavxMicroNavigationSensor.class, "navx"),
+                AHRS.DeviceDataType.kProcessedData);
+
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -263,15 +269,15 @@ public final class MecanumDriveNavX {
 
         // TODO: make sure your config has an IMU with this name (can be BNO or BHI) DONE
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
-        imu = hardwareMap.get(IMU.class, "imu");
+       /* imu = hardwareMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 PARAMS.logoFacingDirection, PARAMS.usbFacingDirection));
-        imu.initialize(parameters);
+        imu.initialize(parameters);*/
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
         // We changed this from "localizer = new DriveLocalizer();"
-        localizer = new TwoDeadWheelLocalizer(hardwareMap, imu, PARAMS.inPerTick);
+        localizer = new TwoDeadWheelLocalizerNavx(hardwareMap, navxImu, PARAMS.inPerTick);
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }
