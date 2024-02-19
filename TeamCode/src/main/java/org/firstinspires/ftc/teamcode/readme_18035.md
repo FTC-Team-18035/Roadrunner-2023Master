@@ -25,6 +25,8 @@ CONTROL HUB --------------------------------------------------------------------
 
   Servo Port 5 - "Bottom Claw" <---- servo position) / "Claw1" <---- (name used in robot config) / "Claw2" <---- (code variable)
 
+  IC2 Port  --- IMU
+
 
 EXPANSION HUB ---------------------------------------------------------------------------------------------
 
