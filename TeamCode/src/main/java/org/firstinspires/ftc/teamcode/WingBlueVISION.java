@@ -53,7 +53,8 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 @Autonomous
-public class WingRedVISION extends LinearOpMode {
+// UNTESTED program vor vision based autonomous starting from the BLUE WING side.
+public class WingBlueVISION extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
@@ -237,11 +238,11 @@ public class WingRedVISION extends LinearOpMode {
 
                     Actions.runBlocking(
                             drive.actionBuilder(new Pose2d(-43.5,0,0))
-                                    .strafeTo(new Vector2d(-43.5,83)) //moves left 83"
+                                    .strafeTo(new Vector2d(-43.5,-83)) //moves right 83"
                                     .waitSeconds(.1)
-                                    .turnTo(Math.toRadians(-90)) //turns 90 degrees clockwise
-                                    .strafeTo(new Vector2d(-28, 83))    //moves left 16"
-                                    .strafeTo(new Vector2d(-28, 87))    //moves towards backdrop
+                                    .turnTo(Math.toRadians(90)) //turns 90 degrees counterclockwise
+                                    .strafeTo(new Vector2d(-28, -83))    //moves left 16"
+                                    .strafeTo(new Vector2d(-28, -87))    //moves towards backdrop
                                     .build());
 
                     drive.MoveLift(100);
@@ -265,19 +266,70 @@ public class WingRedVISION extends LinearOpMode {
                     drive.MoveLift(0);
 
                     Actions.runBlocking(
-                            drive.actionBuilder(new Pose2d(-28,87,-90)) //If it still turns reset to 0 (Heading)
-                                    .strafeTo(new Vector2d(-28,84))
+                            drive.actionBuilder(new Pose2d(-28,-87,Math.toRadians(90))) //If it still turns reset to 0 (Heading)
+                                    .strafeTo(new Vector2d(-28,-84))
                                     .waitSeconds(.5)
-                                    .strafeTo(new Vector2d(-46, 84))
+                                    .strafeTo(new Vector2d(-46, -84))
                                     .build());
                     stop();
                 } else if (objectDistanceX > 450 && objectDistanceX < 600) {//This is supposed to check if we are far enough forward towards the pixel but never became true
+                    visionPortal.close();
+                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+                    Actions.runBlocking(
+                            drive.actionBuilder(new Pose2d(0, 0, 0))
+                                    //.waitSeconds(5) add this in to coordinate autonomous
+                                    .strafeTo(new Vector2d(-43.5,0))   //moves backwards 49.5"
+                                    .strafeTo(new Vector2d(-43.5,11))
+                                    .build());
+
+                    drive.ActivateIntake(-.7); //upped speed from .7 bc it needed to shoot farther over here
+                    sleep(1000);
+                    drive.ActivateIntake(0);
+
+                    Actions.runBlocking(
+                            drive.actionBuilder(new Pose2d(-43.5,11,0))
+                                    .strafeTo(new Vector2d(-43.5,-73)) //moves right 83"
+                                    .waitSeconds(.1)
+                                    .turnTo(Math.toRadians(90)) //turns 90 degrees counterclockwise
+                                    .strafeTo(new Vector2d(-35, -73))    //moves left 16"
+                                    .strafeTo(new Vector2d(-35, -83))    //moves towards backdrop
+                                    .build());
+
+                    drive.MoveLift(100);
+                    sleep(500);
+                    drive.RotateArm(-90);
+                    sleep(1000);
+                    drive.MoveLift(1950);
+                    sleep(1000);
+                    drive.RotateArm(880);
+                    sleep(500);
+                    drive.Claw1.setPosition(1);
+                    sleep(400);
+                    drive.Claw2.setPosition(1);
+                    sleep(500);
+                    drive.RotateArm(-90);
+                    sleep(1500);
+                    drive.MoveLift(100);
+                    sleep(1000);
+                    drive.RotateArm(0);
+                    sleep(500);
+                    drive.MoveLift(0);
+
+                    Actions.runBlocking(
+                            drive.actionBuilder(new Pose2d(-35,-83,Math.toRadians(-90))) //If it still turns reset to 0 (Heading)
+                                    .strafeTo(new Vector2d(-35,-78)) //was (-35, 84)
+                                    .waitSeconds(.5)
+                                    .strafeTo(new Vector2d(-50, -78))
+                                    .build());
+                    stop();
+                }
+                else if(timer.seconds() >= 3){
                     visionPortal.close();
                     lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
                     Actions.runBlocking(
                             drive.actionBuilder(new Pose2d(0, 0, 0))
                                     //.waitSeconds(5) add this in to coordinate autonomous
-                                    .strafeTo(new Vector2d(-23,0)) //moves backwards 49.5" was .43.5
+                                    .strafeTo(new Vector2d(-23,0))
                                     .turn(Math.toRadians(90))
                                     .build());
 
@@ -286,7 +338,7 @@ public class WingRedVISION extends LinearOpMode {
                     drive.ActivateIntake(0);
 
                     Actions.runBlocking(
-                            drive.actionBuilder(new Pose2d(-23,0,Math.toRadians(90))) //was -43.5
+                            drive.actionBuilder(new Pose2d(-23,0,Math.toRadians(90)))
                                     .strafeTo(new Vector2d(-23, -3))
                                     .turn(Math.toRadians(-90))
                                     .strafeTo(new Vector2d(-43.5, -3))
@@ -296,7 +348,7 @@ public class WingRedVISION extends LinearOpMode {
                                     .strafeTo(new Vector2d(-21, 83))    //moves left 23"
                                     .strafeTo(new Vector2d(-21, 87))    //moves towards backdrop
                                     .build());
-                    
+
                     drive.MoveLift(100);
                     sleep(500);
                     drive.RotateArm(-90);
@@ -326,57 +378,7 @@ public class WingRedVISION extends LinearOpMode {
                     stop();
 
                 }
-            else if(timer.seconds() >= 3){
-                visionPortal.close();
-                lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
-                    Actions.runBlocking(
-                            drive.actionBuilder(new Pose2d(0, 0, 0))
-                                    //.waitSeconds(5) add this in to coordinate autonomous
-                                    .strafeTo(new Vector2d(-43.5,0))   //moves backwards 49.5"
-                                    .strafeTo(new Vector2d(-43.5,-11))
-                                    .build());
 
-                    drive.ActivateIntake(-.7); //upped speed from .7 bc it needed to shoot farther over here
-                    sleep(1000);
-                    drive.ActivateIntake(0);
-
-                    Actions.runBlocking(
-                            drive.actionBuilder(new Pose2d(-43.5,-12,0))
-                                    .strafeTo(new Vector2d(-43.5,73)) //moves left 83"
-                                    .waitSeconds(.1)
-                                    .turnTo(Math.toRadians(-90)) //turns 90 degrees clockwise
-                                    .strafeTo(new Vector2d(-35, 73))    //moves left 16"
-                                    .strafeTo(new Vector2d(-35, 83))    //moves towards backdrop
-                                    .build());
-
-                    drive.MoveLift(100);
-                    sleep(500);
-                    drive.RotateArm(-90);
-                    sleep(1000);
-                    drive.MoveLift(1950);
-                    sleep(1000);
-                    drive.RotateArm(880);
-                    sleep(500);
-                    drive.Claw1.setPosition(1);
-                    sleep(400);
-                    drive.Claw2.setPosition(1);
-                    sleep(500);
-                    drive.RotateArm(-90);
-                    sleep(1500);
-                    drive.MoveLift(100);
-                    sleep(1000);
-                    drive.RotateArm(0);
-                    sleep(500);
-                    drive.MoveLift(0);
-
-                    Actions.runBlocking(
-                            drive.actionBuilder(new Pose2d(-35,83,Math.toRadians(-90))) //If it still turns reset to 0 (Heading)
-                                    .strafeTo(new Vector2d(-35,78)) //was (-35, 84)
-                                    .waitSeconds(.5)
-                                    .strafeTo(new Vector2d(-50, 78))
-                                    .build());
-                    stop();
-                }
                 //The X and Y never really dropped below 200. Or went over 300
             }
         }   // end for() loop
