@@ -537,5 +537,6 @@ public final class MecanumDrive {
         lights.setPattern(pattern);
     }
 
-    public void ActivateIntake(double power){ IntakeMotor.setPower(power); }
+    public void ActivateIntake(double power){
+        IntakeMotor.setPower(power); }
 }

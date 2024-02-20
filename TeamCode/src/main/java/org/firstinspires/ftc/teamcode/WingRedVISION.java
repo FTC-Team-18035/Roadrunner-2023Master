@@ -35,7 +35,6 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
@@ -54,7 +53,7 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 @Autonomous
-public class TeamPropTestingUpdated extends LinearOpMode {
+public class WingRedVISION extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
@@ -297,7 +296,7 @@ public class TeamPropTestingUpdated extends LinearOpMode {
                                     .strafeTo(new Vector2d(-21, 83))    //moves left 23"
                                     .strafeTo(new Vector2d(-21, 87))    //moves towards backdrop
                                     .build());
-
+                    
                     drive.MoveLift(100);
                     sleep(500);
                     drive.RotateArm(-90);
@@ -324,6 +323,7 @@ public class TeamPropTestingUpdated extends LinearOpMode {
                                     .waitSeconds(.5)
                                     .strafeTo(new Vector2d(-50, 84))
                                     .build());
+                    stop();
 
                 }
             else if(timer.seconds() >= 3){
@@ -375,7 +375,7 @@ public class TeamPropTestingUpdated extends LinearOpMode {
                                     .waitSeconds(.5)
                                     .strafeTo(new Vector2d(-50, 78))
                                     .build());
-
+                    stop();
                 }
                 //The X and Y never really dropped below 200. Or went over 300
             }
