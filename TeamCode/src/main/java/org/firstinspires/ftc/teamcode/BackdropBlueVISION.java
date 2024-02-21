@@ -52,9 +52,8 @@ import java.util.List;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@Autonomous
-// UNTESTED program vor vision based autonomous starting from the BLUE WING side.
-public class WingBlueVISION extends LinearOpMode {
+@Autonomous(preselectTeleOp = "Main TeleOP")
+public class BackdropBlueVISION extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
@@ -73,6 +72,8 @@ public class WingBlueVISION extends LinearOpMode {
     public String label;//Saves the name of the detected object (In this case "Pixel")
     public double objectDistanceX;//Saves the X of the detected object
     public double objectDistanceY;//Saves the Y of the detected object
+
+    ElapsedTime timer = new ElapsedTime();
 
     public int DetetcionLeft = 100;
     public int DetectionMiddle = 250;
@@ -106,10 +107,13 @@ public class WingBlueVISION extends LinearOpMode {
         waitForStart();
         lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_WITH_GLITTER);
         if (opModeIsActive()) {
+            timer.reset();
             while (opModeIsActive()) {
 
-                telemetryTfod();
-
+                double currentTime = timer.seconds();
+                telemetryTfod(currentTime);
+                telemetry.addData("Time", timer.seconds());
+                telemetry.addData("Label", label);
                 // Push telemetry to the Driver Station.
                 telemetry.update();
                 /*
@@ -199,7 +203,7 @@ public class WingBlueVISION extends LinearOpMode {
     /**
      * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
      */
-    private void telemetryTfod() {
+    private void telemetryTfod(double currentTime) {
 
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         telemetry.addData("# Objects Detected", currentRecognitions.size());
@@ -218,35 +222,36 @@ public class WingBlueVISION extends LinearOpMode {
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
 
-            ElapsedTime timer = new ElapsedTime();
-
-            timer.reset();
-
+        }
             if (label == "RedProp" || label == "BlueProp") {//Checks to see if something has been detected (If nothing has been label is empty ""
                 //Spike mark 2
                 if (objectDistanceX >= 100 && objectDistanceX <= 450) {//The thought was if the robot move left far enough this would become false
                     visionPortal.close();
                     lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
 
+                    requestOpModeStop();
+
                     //Spike mark 3
                 } else if (objectDistanceX > 450 && objectDistanceX < 600) {//This is supposed to check if we are far enough forward towards the pixel but never became true
-                    visionPortal.close();
-                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
-
-                }
-                else if(timer.seconds() >= 3){//Spike mark 1
                     visionPortal.close();
                     lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
 
 
+                    requestOpModeStop();
                 }
-
-                //The X and Y never really dropped below 200. Or went over 300
             }
+            else if(currentTime > 3){//Spike mark 1
+                visionPortal.close();
+                lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+
+
+                requestOpModeStop();
+                }
+                //The X and Y never really dropped below 200. Or went over 300
         }   // end for() loop
 
     }
-}// end method telemetryTfod()
+// end method telemetryTfod()
 
 
 // end class
