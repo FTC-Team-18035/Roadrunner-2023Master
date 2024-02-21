@@ -29,11 +29,11 @@ public final class BackdropRed2Spike extends LinearOpMode {
 
         Actions.runBlocking(
                 drive.actionBuilder(new Pose2d(-43.5,0,0))
-                        .strafeTo(new Vector2d(-43.5,83)) //moves left 83"
+                        .strafeTo(new Vector2d(-43.5,28)) //moves left 83"
                         .waitSeconds(.1)
                         .turnTo(Math.toRadians(-90)) //turns 90 degrees clockwise
-                        .strafeTo(new Vector2d(-28, 83))    //moves left 16"
-                        .strafeTo(new Vector2d(-28, 87))    //moves towards backdrop
+                        .strafeTo(new Vector2d(-28, 28))    //moves left 16"
+                        .strafeTo(new Vector2d(-28, 38))    //moves towards backdrop
                         .build());
 
                 drive.MoveLift(100);
@@ -57,10 +57,10 @@ public final class BackdropRed2Spike extends LinearOpMode {
                 drive.MoveLift(0);
 
         Actions.runBlocking(
-                drive.actionBuilder(new Pose2d(-28,87,-90)) //If it still turns reset to 0 (Heading)
-                        .strafeTo(new Vector2d(-28,84))
+                drive.actionBuilder(new Pose2d(-28,38,Math.toRadians(-90))) //If it still turns reset to 0 (Heading)
+                        .strafeTo(new Vector2d(-28,34))
                         .waitSeconds(.5)
-                        .strafeTo(new Vector2d(-46, 84))
+                        .strafeTo(new Vector2d(-46, 34))
                         .build());
 
 
