@@ -272,7 +272,7 @@ public class BackdropRedVISION extends LinearOpMode {
                             drive.actionBuilder(new Pose2d(-28,38,Math.toRadians(-90))) //If it still turns reset to 0 (Heading)
                                     .strafeTo(new Vector2d(-28,34))
                                     .waitSeconds(.5)
-                                    .strafeTo(new Vector2d(-46, 34))
+                                    .strafeTo(new Vector2d(-6, 34))
                                     .build());
                     requestOpModeStop();
 
@@ -325,7 +325,7 @@ public class BackdropRedVISION extends LinearOpMode {
                             drive.actionBuilder(new Pose2d(-18,38,Math.toRadians(-90))) //If it still turns reset to 0 (Heading)
                                     .strafeTo(new Vector2d(-18,34))
                                     .waitSeconds(.5)
-                                    .strafeTo(new Vector2d(-46, 34))
+                                    .strafeTo(new Vector2d(-6, 34))
                                     .build());
 
                     requestOpModeStop();
@@ -377,7 +377,7 @@ public class BackdropRedVISION extends LinearOpMode {
                         drive.actionBuilder(new Pose2d(-29,37,Math.toRadians(-90))) //If it still turns reset to 0 (Heading)
                                 .strafeTo(new Vector2d(-29,33))
                                 .waitSeconds(.5)
-                                .strafeTo(new Vector2d(-52, 33))
+                                .strafeTo(new Vector2d(-6, 33))
                                 .build());
 
                 requestOpModeStop();

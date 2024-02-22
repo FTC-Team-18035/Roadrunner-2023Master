@@ -5,7 +5,9 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+@Disabled
 @Autonomous(name = "Purple Pixel Place Test", preselectTeleOp = "MainTeleOp")
 public class PurplePixelSkeletonDelivery extends LinearOpMode {
     int Parking = 0; //0 = right side of the backdrop. 1 = left side of the backdrop

@@ -225,17 +225,114 @@ public class BackdropBlueVISION extends LinearOpMode {
         }
             if (label == "RedProp" || label == "BlueProp") {//Checks to see if something has been detected (If nothing has been label is empty ""
                 //Spike mark 2
-                if (objectDistanceX >= 100 && objectDistanceX <= 450) {//The thought was if the robot move left far enough this would become false
+                if (objectDistanceX >= 10 && objectDistanceX <= 400) {//The thought was if the robot move left far enough this would become false
                     visionPortal.close();
                     lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
+
+                    Actions.runBlocking(
+                            drive.actionBuilder(new Pose2d(0, 0, 0))
+                                    //.waitSeconds(5) add this in to coordinate autonomous
+                                    .strafeTo(new Vector2d(-43.5,0))   //moves backwards 49.5"
+                                    .build());
+
+                    drive.ActivateIntake(-.60);
+                    sleep(1000);
+                    drive.ActivateIntake(0);
+
+                    Actions.runBlocking(
+                            drive.actionBuilder(new Pose2d(-43.5,0,0))
+                                    .strafeTo(new Vector2d(-43.5,-28)) //moves left 83"
+                                    .waitSeconds(.1)
+                                    .turnTo(Math.toRadians(90))
+                                    .strafeTo(new Vector2d(-24, -28))
+                                    .build());
+
+                    drive.MoveLift(100);
+                    sleep(500);
+                    drive.RotateArm(-90);
+                    sleep(1000);
+                    drive.MoveLift(1450);
+                    sleep(1000);
+                    drive.RotateArm(880);
+
+                    Actions.runBlocking(
+                            drive.actionBuilder(new Pose2d(-24,-28,Math.toRadians(90))) //If it still turns reset to 0 (Heading)
+                                    .strafeTo(new Vector2d(-24, -38))    //moves towards backdrop
+                                    .build());
+
+                    drive.Claw1.setPosition(1);
+                    sleep(400);
+                    drive.Claw2.setPosition(1);
+                    sleep(500);
+                    drive.RotateArm(-90);
+                    sleep(1500);
+                    drive.MoveLift(100);
+                    sleep(1000);
+                    drive.RotateArm(0);
+                    sleep(500);
+                    drive.MoveLift(0);
+
+
+                    Actions.runBlocking(
+                            drive.actionBuilder(new Pose2d(-24,-38,Math.toRadians(90))) //If it still turns reset to 0 (Heading)
+                                    .strafeTo(new Vector2d(-24,-34))
+                                    .waitSeconds(.5)
+                                    .strafeTo(new Vector2d(-6, -34))
+                                    .build());
+
 
                     requestOpModeStop();
 
                     //Spike mark 3
-                } else if (objectDistanceX > 450 && objectDistanceX < 600) {//This is supposed to check if we are far enough forward towards the pixel but never became true
+                } else if (objectDistanceX > 400 && objectDistanceX < 600) {//This is supposed to check if we are far enough forward towards the pixel but never became true
                     visionPortal.close();
                     lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
 
+                    Actions.runBlocking(
+                            drive.actionBuilder(new Pose2d(0, 0, 0))
+                                    //.waitSeconds(5) add this in to coordinate autonomous
+                                    .strafeTo(new Vector2d(-23,0)) //moves backwards 49.5" was .43.5
+                                    .turn(Math.toRadians(90))
+                                    .build());
+
+                    drive.ActivateIntake(-.6);
+                    drive.MoveLift(100);
+                    sleep(500);
+                    drive.RotateArm(-90);
+                    sleep(1000);
+                    drive.ActivateIntake(0);
+                    drive.MoveLift(1950);
+                    sleep(1000);
+                    drive.RotateArm(880);
+
+                    Actions.runBlocking(
+                            drive.actionBuilder(new Pose2d(-23,0,Math.toRadians(90))) //was -43.5
+                                    .strafeTo(new Vector2d(-23, -3))
+                                    .turn(Math.toRadians(-90))
+                                    .strafeTo(new Vector2d(-23,-27)) //moves left 27"
+                                    .strafeTo(new Vector2d(-29, -27))    //moves left 23"
+                                    .turn(Math.toRadians(90))
+                                    .strafeTo(new Vector2d(-29, -37))    //moves towards backdrop
+                                    .build());
+
+                    drive.Claw1.setPosition(1);
+                    sleep(400);
+                    drive.Claw2.setPosition(1);
+                    sleep(500);
+                    drive.RotateArm(-90);
+                    sleep(1500);
+                    drive.MoveLift(100);
+                    sleep(1000);
+                    drive.RotateArm(0);
+                    sleep(500);
+                    drive.MoveLift(0);
+
+                    Actions.runBlocking(
+                            drive.actionBuilder(new Pose2d(-29,-37,Math.toRadians(90))) //If it still turns reset to 0 (Heading)
+                                    .strafeTo(new Vector2d(-29,-33))
+                                    .waitSeconds(.5)
+                                    .strafeTo(new Vector2d(-6, -33))
+                                    .build());
 
                     requestOpModeStop();
                 }
@@ -244,13 +341,65 @@ public class BackdropBlueVISION extends LinearOpMode {
                 visionPortal.close();
                 lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
 
+                Actions.runBlocking(
+                        drive.actionBuilder(new Pose2d(0, 0, 0))
+                                //.waitSeconds(5) add this in to coordinate autonomous
+                                .strafeTo(new Vector2d(-43.5,0))   //moves backwards 49.5"
+                                .strafeTo(new Vector2d(-43.5,-11))
+                                .build());
+
+                drive.ActivateIntake(-.6); //upped speed from .7 bc it needed to shoot farther over here
+                sleep(1000);
+                drive.ActivateIntake(0);
+
+                Actions.runBlocking(
+                        drive.actionBuilder(new Pose2d(-43.5,-11,0))
+                                .strafeTo(new Vector2d(-43.5,-28))
+                                .waitSeconds(.1)
+                                .turnTo(Math.toRadians(90))
+                                .strafeTo(new Vector2d(-17, -28))
+                                .build());
+
+                drive.MoveLift(100);
+                sleep(500);
+                drive.RotateArm(-90);
+                sleep(1000);
+                drive.MoveLift(1450);
+                sleep(1000);
+                drive.RotateArm(880);
+
+                Actions.runBlocking(
+                        drive.actionBuilder(new Pose2d(-17,-28,Math.toRadians(90))) //If it still turns reset to 0 (Heading)
+                                .strafeTo(new Vector2d(-17, -38))    //moves towards backdrop
+                                .build());
+
+                drive.Claw1.setPosition(1);
+                sleep(400);
+                drive.Claw2.setPosition(1);
+                sleep(500);
+                drive.RotateArm(-90);
+                sleep(1500);
+                drive.MoveLift(100);
+                sleep(1000);
+                drive.RotateArm(0);
+                sleep(500);
+                drive.MoveLift(0);
+
+                Actions.runBlocking(
+                        drive.actionBuilder(new Pose2d(-17,-38,Math.toRadians(90))) //If it still turns reset to 0 (Heading)
+                                .strafeTo(new Vector2d(-17,-34))
+                                .waitSeconds(.5)
+                                .strafeTo(new Vector2d(-6, -34))
+                                .build());
+
 
                 requestOpModeStop();
                 }
                 //The X and Y never really dropped below 200. Or went over 300
-        }   // end for() loop
+         // end for() loop
 
     }
+}
 // end method telemetryTfod()
 
 

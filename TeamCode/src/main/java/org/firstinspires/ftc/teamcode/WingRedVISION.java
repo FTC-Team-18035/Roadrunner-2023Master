@@ -52,7 +52,7 @@ import java.util.List;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@Autonomous
+@Autonomous(preselectTeleOp = "Main TeleOP")
 public class WingRedVISION extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
@@ -229,7 +229,7 @@ public class WingRedVISION extends LinearOpMode {
                     lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
                     Actions.runBlocking(
                             drive.actionBuilder(new Pose2d(0, 0, 0))
-                                    //.waitSeconds(5) add this in to coordinate autonomous
+                                    .waitSeconds(2) // add this in to coordinate autonomous
                                     .strafeTo(new Vector2d(-43.5, 0))   //moves backwards 49.5"
                                     .build());
 
@@ -245,17 +245,23 @@ public class WingRedVISION extends LinearOpMode {
                                     .waitSeconds(.1)
                                     .turnTo(Math.toRadians(-90)) //turns 90 degrees clockwise
                                     .strafeTo(new Vector2d(-28, 83))    //moves left 16"
-                                    .strafeTo(new Vector2d(-28, 87))    //moves towards backdrop
                                     .build());
 
                     drive.MoveLift(100);
                     sleep(500);
                     drive.RotateArm(-90);
                     sleep(1000);
-                    drive.MoveLift(1450);
+                    drive.MoveLift(1350);
                     sleep(1000);
                     drive.RotateArm(880);
-                    sleep(500);
+
+                    Actions.runBlocking(
+                            drive.actionBuilder(new Pose2d(-28, 83, Math.toRadians(-90)))
+                                    .waitSeconds(1)
+                                    .strafeTo(new Vector2d(-28, 87))    //moves towards backdrop
+                                    .build()
+                    );
+
                     drive.Claw1.setPosition(1);
                     sleep(400);
                     drive.Claw2.setPosition(1);
@@ -282,7 +288,7 @@ public class WingRedVISION extends LinearOpMode {
                     lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
                     Actions.runBlocking(
                             drive.actionBuilder(new Pose2d(0, 0, 0))
-                                    //.waitSeconds(5) add this in to coordinate autonomous
+                                    .waitSeconds(2)// add this in to coordinate autonomous
                                     .strafeTo(new Vector2d(-23, 0)) //moves backwards 49.5" was .43.5
                                     .turn(Math.toRadians(90))
                                     .build());
@@ -300,7 +306,6 @@ public class WingRedVISION extends LinearOpMode {
                                     .waitSeconds(.1)
                                     .turnTo(Math.toRadians(-90)) //turns 90 degrees clockwise
                                     .strafeTo(new Vector2d(-21, 83))    //moves left 23"
-                                    .strafeTo(new Vector2d(-21, 87))    //moves towards backdrop
                                     .build());
 
                     drive.MoveLift(100);
@@ -310,7 +315,14 @@ public class WingRedVISION extends LinearOpMode {
                     drive.MoveLift(1450);
                     sleep(1000);
                     drive.RotateArm(880);
-                    sleep(500);
+
+                    Actions.runBlocking(
+                            drive.actionBuilder(new Pose2d(-21, 83, Math.toRadians(-90)))
+                                    .waitSeconds(1)
+                                    .strafeTo(new Vector2d(-21, 87))    //moves towards backdrop
+                                    .build()
+                    );
+
                     drive.Claw1.setPosition(1);
                     sleep(400);
                     drive.Claw2.setPosition(1);
@@ -338,7 +350,7 @@ public class WingRedVISION extends LinearOpMode {
                 lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
                     Actions.runBlocking(
                             drive.actionBuilder(new Pose2d(0, 0, 0))
-                                    //.waitSeconds(5) add this in to coordinate autonomous
+                                    .waitSeconds(2) // add this in to coordinate autonomous
                                     .strafeTo(new Vector2d(-43.5,0))   //moves backwards 49.5"
                                     .strafeTo(new Vector2d(-43.5,-11))
                                     .build());
@@ -353,7 +365,6 @@ public class WingRedVISION extends LinearOpMode {
                                     .waitSeconds(.1)
                                     .turnTo(Math.toRadians(-90)) //turns 90 degrees clockwise
                                     .strafeTo(new Vector2d(-35, 73))    //moves left 16"
-                                    .strafeTo(new Vector2d(-35, 83))    //moves towards backdrop
                                     .build());
 
                     drive.MoveLift(100);
@@ -363,7 +374,14 @@ public class WingRedVISION extends LinearOpMode {
                     drive.MoveLift(1450);
                     sleep(1000);
                     drive.RotateArm(880);
-                    sleep(500);
+
+                    Actions.runBlocking(
+                            drive.actionBuilder(new Pose2d(-35, 73, Math.toRadians(-90)))
+                                    .waitSeconds(1)
+                                    .strafeTo(new Vector2d(-35, 83))    //moves towards backdrop
+                                    .build()
+                    );
+
                     drive.Claw1.setPosition(1);
                     sleep(400);
                     drive.Claw2.setPosition(1);

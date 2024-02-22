@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 
+@Disabled
 @Autonomous
 //Replace "Template" with your new program's file name.
 public final class BackdropSideProp extends LinearOpMode {

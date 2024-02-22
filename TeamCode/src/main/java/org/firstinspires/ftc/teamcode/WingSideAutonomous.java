@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 
+@Disabled
 @Autonomous
 //Replace "Template" with your new program's file name.
 public final class WingSideAutonomous extends LinearOpMode {
