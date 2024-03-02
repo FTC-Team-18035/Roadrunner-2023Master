@@ -91,12 +91,12 @@ public final class MecanumDriveNavX {
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = .12;
-        public double lateralGain = 2.5;
-        public double headingGain = 0; // shared with turn //22
+        public double axialGain = 0;
+        public double lateralGain = 0;
+        public double headingGain = 0;// shared with turn //22 **THIS NEEDS TO BE NEGATIVE WHEN USING THE NAVX**
 
-        public double axialVelGain = .015;
-        public double lateralVelGain = 1.5;
+        public double axialVelGain = 0;
+        public double lateralVelGain = 0;
         public double headingVelGain = 0; // shared with turn //.25
 
     }

@@ -49,6 +49,7 @@ public final class TwoDeadWheelLocalizerNavx implements Localizer {
         lastPerpPos = perp.getPositionAndVelocity().position;
         lastHeading = Rotation2d.exp(Math.toRadians(imu.getYaw()));
 
+
         this.inPerTick = inPerTick;
 
         FlightRecorder.write("TWO_DEAD_WHEEL_PARAMS", PARAMS);
@@ -56,7 +57,7 @@ public final class TwoDeadWheelLocalizerNavx implements Localizer {
 
     // see https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/617
     private double getHeadingVelocity() {
-        double rawHeadingVel = Math.toRadians(imu.getYaw());
+        double rawHeadingVel = Math.toRadians(imu.getRawGyroZ());
         if (Math.abs(rawHeadingVel - lastRawHeadingVel) > Math.PI) {
             headingVelOffset -= Math.signum(rawHeadingVel) * 2 * Math.PI;
         }
