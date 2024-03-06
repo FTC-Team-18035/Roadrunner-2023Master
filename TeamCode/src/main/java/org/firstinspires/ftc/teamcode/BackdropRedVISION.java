@@ -193,7 +193,7 @@ public class BackdropRedVISION extends LinearOpMode {
         visionPortal = builder.build();
 
         // Set confidence threshold for TFOD recognitions, at any time.
-        tfod.setMinResultConfidence(0.40f);
+        tfod.setMinResultConfidence(0.60f);
 
         // Disable or re-enable the TFOD processor at any time.
         //visionPortal.setProcessorEnabled(tfod, true);
@@ -223,7 +223,7 @@ public class BackdropRedVISION extends LinearOpMode {
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
 
         }
-            if (label == "RedProp" || label == "BlueProp") {//Checks to see if something has been detected (If nothing has been label is empty ""
+            if (label == "RedProp") {//Checks to see if something has been detected (If nothing has been label is empty ""
                 if (objectDistanceX >= 100 && objectDistanceX <= 450) {//The thought was if the robot move left far enough this would become false
                     visionPortal.close();
                     lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);

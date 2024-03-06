@@ -8,11 +8,11 @@
     import com.qualcomm.robotcore.hardware.Servo;
     import com.qualcomm.robotcore.util.ElapsedTime;
 
-    @TeleOp(name = "Main TeleOP")
+    @TeleOp(name = "Main TeleOP Speed Test")
 // This was added to test GIT
     // This opmode has framework for all systems included
 
-    public class MainTeleOp_ManualDown extends LinearOpMode {
+    public class MainTeleOp_SpeedTest extends LinearOpMode {
         // Final variables (Meaning they don't change)
         //public PWMOutput Lights;
         static final double COUNTS_PER_MOTOR_REV = 288;    // eg: TETRIX Motor Encoder
@@ -38,7 +38,7 @@
         private double frontRightPower = 0;    // declare motor power variable
         private double backRightPower = 0;     // declare motor power variable
         private double denominator = 1;        // declare motor power calculation variable
-        private int precision = 2;          // chassis motor power reduction factor 1=full 2=1/2 power 4=1/4 power
+        private double precision = 2;          // chassis motor power reduction factor 1=full 2=1/2 power 4=1/4 power
         private double liftPower = 1;        // declare lift motor power variable *******
         private boolean isClosed1 = false;      // Claw state variable
         private boolean isClosed2 = false;      // Claw state variable
@@ -68,6 +68,8 @@
             DcMotor Bright = hardwareMap.dcMotor.get("Bright");//Back right wheel
             Servo Claw1 = hardwareMap.servo.get("Claw1");//Claw 1
             Servo Claw2 = hardwareMap.servo.get("Claw2");//Claw 2
+
+            Servo PPD = hardwareMap.servo.get(("PPD"));
 
             Servo Drone = hardwareMap.servo.get("Drone");//Drone
             DcMotor LeftLiftMotor = hardwareMap.dcMotor.get("Lift1");    //Left lift
@@ -115,6 +117,7 @@
             ArmRotationMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//Sets the motor to be locked when stopped
 
             Drone.setPosition(1);//Sets the drone launcher
+            PPD.setPosition(0);
             boolean discoMode = false;
             lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
             waitForStart();//Waits for us to hit play before continuing
@@ -133,7 +136,7 @@
 
 
                 //Reversed driving
-                else if (gamepad1.right_trigger >= .75) {
+                else if (gamepad1.right_trigger >= .50) {
 
                     y = -gamepad1.left_stick_y; // Remember, this is reversed!
                     x = -gamepad1.right_stick_x * 1.1; // Counteract imperfect strafing
@@ -149,7 +152,6 @@
                 if (gamepad1.left_stick_button == true) {
                     lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_WITH_GLITTER);
                 }
-
                 telemetry.update();//Updates the telemetry on the driver hub
 
                 // calculate motor movement math and adjust according to lift height or manual precision mode selection
@@ -159,11 +161,18 @@
                 // check for Turbo or Precision Mode
 
                 if (gamepad1.left_bumper) {
-                    precision = 1;              // set speed to full power - TRUBO MODE
+                    precision = 0.5;            // set speed to 1/4 power - PRECISION MODE
                 } else if (gamepad1.right_bumper) {
-                    precision = 4;              // set speed to 1/4 power - PRECISION MODE
+                    precision = 3;             // set speed to full power - TRUBO MODE
                 } else {
-                    precision = 2;              // reset default speed to half power
+                    precision = 1;              // reset default speed to half power
+                }
+
+                if(gamepad2.right_stick_button){
+                    PPD.setPosition(1);
+                }
+                else if (gamepad2.left_stick_button){
+                    PPD.setPosition(0);
                 }
 
                 // calculate motor power

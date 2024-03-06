@@ -221,7 +221,7 @@ public class WingBlueVISION extends LinearOpMode {
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
         }
-            if (label == "RedProp" || label == "BlueProp") {//Checks to see if something has been detected (If nothing has been label is empty ""
+            if (label == "BlueProp") {//Checks to see if something has been detected (If nothing has been label is empty ""
                 //Spike mark 2
                 if (objectDistanceX >= 10 && objectDistanceX <= 450) {//The thought was if the robot move left far enough this would become false
                     visionPortal.close();
@@ -229,7 +229,7 @@ public class WingBlueVISION extends LinearOpMode {
 
                     Actions.runBlocking(
                             drive.actionBuilder(new Pose2d(0, 0, 0))
-                                    .waitSeconds(2) //add this in to coordinate autonomous
+                                    .waitSeconds(4) //add this in to coordinate autonomous
                                     .strafeTo(new Vector2d(-43.5, 0))   //moves backwards 49.5"
                                     .build());
 
@@ -255,6 +255,7 @@ public class WingBlueVISION extends LinearOpMode {
 
                     Actions.runBlocking(
                             drive.actionBuilder(new Pose2d(-28, -83, Math.toRadians(90)))
+                                    .waitSeconds(1)
                                     .strafeTo(new Vector2d(-28, -87))    //moves towards backdrop
                                     .build());
 
@@ -284,7 +285,7 @@ public class WingBlueVISION extends LinearOpMode {
 
                     Actions.runBlocking(
                             drive.actionBuilder(new Pose2d(0, 0, 0))
-                                    .waitSeconds(2) //add this in to coordinate autonomous
+                                    .waitSeconds(4) //add this in to coordinate autonomous
                                     .strafeTo(new Vector2d(-43.5, 0))   //moves backwards 49.5"
                                     .strafeTo(new Vector2d(-43.5, 11))
                                     .build());
@@ -310,6 +311,7 @@ public class WingBlueVISION extends LinearOpMode {
                     drive.RotateArm(880);
                     Actions.runBlocking(
                             drive.actionBuilder(new Pose2d(-34, -73, Math.toRadians(90)))
+                                    .waitSeconds(1)
                                     .strafeTo(new Vector2d(-34, -83))    //moves towards backdrop
                                     .build()
                     );
@@ -371,6 +373,7 @@ public class WingBlueVISION extends LinearOpMode {
 
                     Actions.runBlocking(
                             drive.actionBuilder(new Pose2d(-21, -83, Math.toRadians(90)))
+                                    .waitSeconds(1)
                                     .strafeTo(new Vector2d(-21, -87))    //moves towards backdrop
                                     .build());
 
