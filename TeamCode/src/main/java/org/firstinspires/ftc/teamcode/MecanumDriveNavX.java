@@ -72,17 +72,17 @@ public final class MecanumDriveNavX {
 
         // drive model parameters                               //Old inPerTick
         public double inPerTick = .000534861457706;             //.000534109802638;
-        public double lateralInPerTick = 0.00042656296114266043; //<- Lateral Ramp Test Result | Measured result -> .000536273356116 //.000537708616815;
-        public double trackWidthTicks = 26637.743219403084; //<- Causes under rotation //26068.849048539818; Old trackWidthTicks          //26064.087849606232;
+        public double lateralInPerTick = 0.00038498914611956477; //<- Lateral Ramp Test Result | Measured result -> .000536273356116 //.000537708616815;
+        public double trackWidthTicks = 25007.988822882642; //<- Causes under rotation //26068.849048539818; Old trackWidthTicks          //26064.087849606232;
 
         // feedforward parameters (in tick units)
-        public double kS = 1.0988600139360383;         //1.0591236679718001; Old KS
-        public double kV = 0.00014794670465210444;     //0.000149846154582138; Old KV
-        public double kA = .000023;
+        public double kS = 1.8639921777198403;         //1.0591236679718001; Old KS
+        public double kV = 0.00007640419675364142;     //0.000149846154582138; Old KV
+        public double kA = 0;
 
         // path profile parameters (in inches)
         // I changed maxWheelVel from 50
-        public double maxWheelVel = 30;
+        public double maxWheelVel = 50;
         public double minProfileAccel = -30;
         public double maxProfileAccel = 50;
 
