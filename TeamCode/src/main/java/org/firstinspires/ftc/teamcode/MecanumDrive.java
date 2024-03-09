@@ -5,7 +5,9 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.canvas.Canvas;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.acmerobotics.roadrunner.*;
+import com.acmerobotics.roadrunner.AccelConstraint;
+import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.Actions;
 import com.acmerobotics.roadrunner.AngularVelConstraint;
 import com.acmerobotics.roadrunner.DualNum;
 import com.acmerobotics.roadrunner.HolonomicController;
@@ -14,7 +16,10 @@ import com.acmerobotics.roadrunner.MinVelConstraint;
 import com.acmerobotics.roadrunner.MotorFeedforward;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Pose2dDual;
+import com.acmerobotics.roadrunner.PoseVelocity2d;
+import com.acmerobotics.roadrunner.PoseVelocity2dDual;
 import com.acmerobotics.roadrunner.ProfileAccelConstraint;
+import com.acmerobotics.roadrunner.Rotation2d;
 import com.acmerobotics.roadrunner.Time;
 import com.acmerobotics.roadrunner.TimeTrajectory;
 import com.acmerobotics.roadrunner.TimeTurn;
@@ -30,6 +35,8 @@ import com.acmerobotics.roadrunner.ftc.LynxFirmware;
 import com.acmerobotics.roadrunner.ftc.OverflowEncoder;
 import com.acmerobotics.roadrunner.ftc.PositionVelocityPair;
 import com.acmerobotics.roadrunner.ftc.RawEncoder;
+import com.kauailabs.navx.ftc.AHRS;
+import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
@@ -47,7 +54,6 @@ import org.firstinspires.ftc.teamcode.messages.MecanumCommandMessage;
 import org.firstinspires.ftc.teamcode.messages.MecanumEncodersMessage;
 import org.firstinspires.ftc.teamcode.messages.PoseMessage;
 
-import java.lang.Math;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -66,17 +72,17 @@ public final class MecanumDrive {
 
         // drive model parameters                               //Old inPerTick
         public double inPerTick = .000534861457706;             //.000534109802638;
-        public double lateralInPerTick = 0.00042656296114266043; //<- Lateral Ramp Test Result | Measured result -> .000536273356116 //.000537708616815;
-        public double trackWidthTicks = 26637.743219403084; //<- Causes under rotation //26068.849048539818; Old trackWidthTicks          //26064.087849606232;
+        public double lateralInPerTick = 0.00038498914611956477; //<- Lateral Ramp Test Result | Measured result -> .000536273356116 //.000537708616815;
+        public double trackWidthTicks = 25007.988822882642; //<- Causes under rotation //26068.849048539818; Old trackWidthTicks          //26064.087849606232;
 
         // feedforward parameters (in tick units)
-        public double kS = 1.0988600139360383;         //1.0591236679718001; Old KS
-        public double kV = 0.00014794670465210444;     //0.000149846154582138; Old KV
-        public double kA = .000023;
+        public double kS = 1.8639921777198403;         //1.0591236679718001; Old KS
+        public double kV = 0.00007640419675364142;     //0.000149846154582138; Old KV
+        public double kA = 0;
 
         // path profile parameters (in inches)
         // I changed maxWheelVel from 50
-        public double maxWheelVel = 30;
+        public double maxWheelVel = 50;
         public double minProfileAccel = -30;
         public double maxProfileAccel = 50;
 
@@ -85,17 +91,18 @@ public final class MecanumDrive {
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = .12;
-        public double lateralGain = 2.5;
-        public double headingGain = 22; // shared with turn
+        public double axialGain = 0;
+        public double lateralGain = 0;
+        public double headingGain = 0;// shared with turn //22 **THIS NEEDS TO BE NEGATIVE WHEN USING THE NAVX**
 
-        public double axialVelGain = .015;
-        public double lateralVelGain = 1.5;
-        public double headingVelGain = .25; // shared with turn
+        public double axialVelGain = 0;
+        public double lateralVelGain = 0;
+        public double headingVelGain = 0; // shared with turn //.25
 
     }
 
     public static Params PARAMS = new Params();
+
 
     public final MecanumKinematics kinematics = new MecanumKinematics(
             PARAMS.inPerTick * PARAMS.trackWidthTicks, PARAMS.inPerTick / PARAMS.lateralInPerTick);
@@ -117,7 +124,7 @@ public final class MecanumDrive {
     public RevBlinkinLedDriver lights;
     public final VoltageSensor voltageSensor;
 
-    public final IMU imu;
+    public AHRS navxImu;
 
     public final Localizer localizer;
     public Pose2d pose;
@@ -149,7 +156,7 @@ public final class MecanumDrive {
             lastRightBackPos = rightBack.getPositionAndVelocity().position;
             lastRightFrontPos = rightFront.getPositionAndVelocity().position;
 
-            lastHeading = Rotation2d.exp(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+            lastHeading = Rotation2d.exp((Math.toRadians(navxImu.getYaw())));
         }
 
         @Override
@@ -162,7 +169,7 @@ public final class MecanumDrive {
             FlightRecorder.write("MECANUM_ENCODERS", new MecanumEncodersMessage(
                     leftFrontPosVel, leftBackPosVel, rightBackPosVel, rightFrontPosVel));
 
-            Rotation2d heading = Rotation2d.exp(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+            Rotation2d heading = Rotation2d.exp(Math.toRadians(navxImu.getYaw()));
             double headingDelta = heading.minus(lastHeading);
 
             Twist2dDual<Time> twist = kinematics.forward(new MecanumKinematics.WheelIncrements<>(
@@ -223,6 +230,9 @@ public final class MecanumDrive {
         Drone = hardwareMap.get(Servo.class, "Drone");
         lights = hardwareMap.get(RevBlinkinLedDriver.class, "lights");
 
+        navxImu = AHRS.getInstance(hardwareMap.get(NavxMicroNavigationSensor.class, "navx"),
+                AHRS.DeviceDataType.kProcessedData);
+
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -259,15 +269,15 @@ public final class MecanumDrive {
 
         // TODO: make sure your config has an IMU with this name (can be BNO or BHI) DONE
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
-        imu = hardwareMap.get(IMU.class, "imu");
+       /* imu = hardwareMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 PARAMS.logoFacingDirection, PARAMS.usbFacingDirection));
-        imu.initialize(parameters);
+        imu.initialize(parameters);*/
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
         // We changed this from "localizer = new DriveLocalizer();"
-        localizer = new TwoDeadWheelLocalizer(hardwareMap, imu, PARAMS.inPerTick);
+        localizer = new TwoDeadWheelLocalizerNavx(hardwareMap, navxImu, PARAMS.inPerTick);
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }
@@ -524,10 +534,10 @@ public final class MecanumDrive {
         );
     }
     public void MoveLift(int targetPos){
-            LeftLiftMotor.setTargetPosition(targetPos);
-            RightLiftMotor.setTargetPosition(targetPos);
-            LeftLiftMotor.setPower(1);
-            RightLiftMotor.setPower(1);
+        LeftLiftMotor.setTargetPosition(targetPos);
+        RightLiftMotor.setTargetPosition(targetPos);
+        LeftLiftMotor.setPower(1);
+        RightLiftMotor.setPower(1);
     }
     public void RotateArm(int targetPos){
         ArmRotationMotor.setTargetPosition(targetPos);
