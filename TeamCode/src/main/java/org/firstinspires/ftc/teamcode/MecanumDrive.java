@@ -66,13 +66,13 @@ public final class MecanumDrive {
 
         // drive model parameters                               //Old inPerTick
         public double inPerTick = .000534861457706;             //.000534109802638;
-        public double lateralInPerTick = 0.00042656296114266043; //<- Lateral Ramp Test Result | Measured result -> .000536273356116 //.000537708616815;
-        public double trackWidthTicks = 26637.743219403084; //<- Causes under rotation //26068.849048539818; Old trackWidthTicks          //26064.087849606232;
+        public double lateralInPerTick = 0.0003493623400888751; //<- Lateral Ramp Test Result | Measured result -> .000536273356116 //.000537708616815;
+        public double trackWidthTicks = 26463.04169415709; //<- Causes under rotation //26068.849048539818; Old trackWidthTicks          //26064.087849606232;
 
         // feedforward parameters (in tick units)
-        public double kS = 1.0988600139360383;         //1.0591236679718001; Old KS
-        public double kV = 0.00014794670465210444;     //0.000149846154582138; Old KV
-        public double kA = .000023;
+        public double kS = 1.3751310748228427;         //1.0591236679718001; Old KS
+        public double kV = .000068;     //0.000149846154582138; Old KV
+        public double kA = .000038;
 
         // path profile parameters (in inches)
         // I changed maxWheelVel from 50
@@ -85,13 +85,13 @@ public final class MecanumDrive {
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = .12;
-        public double lateralGain = 2.5;
-        public double headingGain = 22; // shared with turn
+        public double axialGain = 3.8;
+        public double lateralGain = .6;
+        public double headingGain = 8.5; // shared with turn
 
-        public double axialVelGain = .015;
-        public double lateralVelGain = 1.5;
-        public double headingVelGain = .25; // shared with turn
+        public double axialVelGain = 0;
+        public double lateralVelGain = 0;
+        public double headingVelGain = 0; // shared with turn
 
     }
 
