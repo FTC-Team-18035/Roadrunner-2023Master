@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 
+@Disabled
 @Autonomous
 public final class RRAccTestSTRAFE24 extends LinearOpMode {
     public void runOpMode() throws InterruptedException {

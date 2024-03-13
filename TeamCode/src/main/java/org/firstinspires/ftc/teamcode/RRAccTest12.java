@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 
+@Disabled
 @Autonomous
 public final class RRAccTest12 extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
@@ -19,7 +20,7 @@ public final class RRAccTest12 extends LinearOpMode {
         Actions.runBlocking(
                 drive.actionBuilder(new Pose2d(0, 0, 0))
                        // .strafeTo(new Vector2d(12,0))
-                        .turn(Math.toRadians(96.9))
+                        .turnTo(Math.toRadians(90))
                         .waitSeconds(2)
                         .strafeTo(new Vector2d(12,0))
                         .build());

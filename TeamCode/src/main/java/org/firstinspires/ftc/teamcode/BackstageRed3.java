@@ -12,67 +12,61 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 @Disabled
 @Autonomous
 //Replace "Template" with your new program's file name.
-public final class WingBlue1Spike extends LinearOpMode {
+public final class BackstageRed3 extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         //The Pose2d function sets where your robot is going to start its trajectory from in X, Y, and heading (in radians or use "Math.toRadians" and input degrees).
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
-
+        drive.PPD(0);
         waitForStart();
 
         Actions.runBlocking(
                 drive.actionBuilder(new Pose2d(0, 0, 0))
                         //.waitSeconds(5) add this in to coordinate autonomous
-                        .strafeTo(new Vector2d(-23,0)) //moves backwards 49.5" was .43.5
-                        .turn(Math.toRadians(-90))
+                        .strafeTo(new Vector2d(0, 22))
+                        .strafeTo(new Vector2d(-32,22))
+                        .turn(Math.toRadians(204))
                         .build());
 
-        drive.ActivateIntake(-.6);
+        drive.PPD(1);
         sleep(1000);
-        drive.ActivateIntake(0);
 
         Actions.runBlocking(
-                drive.actionBuilder(new Pose2d(-23,0,Math.toRadians(-90))) //was -43.5
-                        .strafeTo(new Vector2d(-23, 3))
-                        .turn(Math.toRadians(90))
-                        .strafeTo(new Vector2d(-43.5, 3))
-                        .strafeTo(new Vector2d(-43.5,-83)) //moves left 83"
-                        .waitSeconds(.1)
-                        .turnTo(Math.toRadians(90)) //turns 90 degrees clockwise
-                        .strafeTo(new Vector2d(-21, -83))    //moves left 23"
+                drive.actionBuilder(new Pose2d(-32, 22, Math.toRadians(180)))
+                        .strafeTo(new Vector2d(-30, 30))
+                        .turn(Math.toRadians(105))
                         .build());
 
         drive.MoveLift(100);
         sleep(500);
         drive.RotateArm(-90);
-        sleep(1000);
-        drive.MoveLift(1450);
-        sleep(1000);
+        sleep(600); //delay after initial backswing
+        drive.MoveLift(1200);
+        sleep(800);
         drive.RotateArm(880);
+        sleep(800); //was 1000
 
         Actions.runBlocking(
-                drive.actionBuilder(new Pose2d(-21, -83, Math.toRadians(90)))
-                        .strafeTo(new Vector2d(-21, -87))    //moves towards backdrop
+                drive.actionBuilder(new Pose2d(-30, 30, Math.toRadians(-90)))
+                        .strafeTo(new Vector2d(-19, 43))
                         .build());
 
-        drive.Claw1.setPosition(1);
-        sleep(400);
         drive.Claw2.setPosition(1);
-        sleep(500);
+        drive.Claw1.setPosition(1);
+        sleep(500); //was 1000
+
+        Actions.runBlocking(
+                drive.actionBuilder(new Pose2d(-19, 43, Math.toRadians(-90)))
+                        .strafeTo(new Vector2d(-19, 36))
+                        .strafeTo(new Vector2d(1, 36))
+                        .build());
+
         drive.RotateArm(-90);
-        sleep(1500);
+        sleep(500);
         drive.MoveLift(100);
         sleep(1000);
         drive.RotateArm(0);
         sleep(500);
         drive.MoveLift(0);
-
-        Actions.runBlocking(
-                drive.actionBuilder(new Pose2d(-21,-87,Math.toRadians(90))) //If it still turns reset to 0 (Heading)
-                        .strafeTo(new Vector2d(-21,-84))
-                        .waitSeconds(.5)
-                        .strafeTo(new Vector2d(-46, -84))
-                        .build());
-
-
+        sleep(500);
     }
 }

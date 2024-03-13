@@ -53,7 +53,7 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 @Autonomous(preselectTeleOp = "Main TeleOP")
-public class WingRedVISION extends LinearOpMode {
+public class AudienceBlueVISION extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
@@ -223,64 +223,68 @@ public class WingRedVISION extends LinearOpMode {
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
 
         }
-            if (label == "RedProp") {//Checks to see if something has been detected (If nothing has been label is empty ""
-                if (objectDistanceX >= 100 && objectDistanceX <= 450) {//The thought was if the robot move left far enough this would become false
+            if (label == "BlueProp") {//Checks to see if something has been detected (If nothing has been label is empty ""
+                if (objectDistanceX >= 40 && objectDistanceX <= 450) {//The thought was if the robot move left far enough this would become false
                     visionPortal.close();
                     lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
                     Actions.runBlocking(
                             drive.actionBuilder(new Pose2d(0, 0, 0))
-                                    .waitSeconds(2) // add this in to coordinate autonomous
-                                    .strafeTo(new Vector2d(-43.5, 0))   //moves backwards 49.5"
+                                    //.waitSeconds(5) add this in to coordinate autonomous
+                                    .strafeTo(new Vector2d(0, 13))
+                                    .strafeTo(new Vector2d(-41,13))
+                                    .turn(Math.toRadians(204))
                                     .build());
-
-                    drive.ActivateIntake(-.32);
-                    sleep(500);
-                    drive.ActivateIntake(-.65);
-                    sleep(500);
-                    drive.ActivateIntake(0);
+                    drive.PPD(1);
+                    sleep(1000);
 
                     Actions.runBlocking(
-                            drive.actionBuilder(new Pose2d(-43.5, 0, 0))
-                                    .strafeTo(new Vector2d(-43.5, 83)) //moves left 83"
-                                    .waitSeconds(.1)
-                                    .turnTo(Math.toRadians(-90)) //turns 90 degrees clockwise
-                                    .strafeTo(new Vector2d(-28, 83))    //moves left 16"
+                            drive.actionBuilder(new Pose2d(-41, 13, Math.toRadians(180)))
+                                    .strafeTo(new Vector2d(-51, 13))
+                                    .turn(Math.toRadians(-101))
+                                    .build());
+
+                    Actions.runBlocking(
+                            drive.actionBuilder(new Pose2d(-51, 13, Math.toRadians(90)))
+                                    .strafeTo(new Vector2d(-51, -75))
+                                    .strafeTo(new Vector2d(-22, -75))
                                     .build());
 
                     drive.MoveLift(100);
                     sleep(500);
                     drive.RotateArm(-90);
-                    sleep(1000);
-                    drive.MoveLift(1350);
-                    sleep(1000);
+                    sleep(600); //delay after initial backswing
+                    drive.MoveLift(1375);
+                    sleep(800);
                     drive.RotateArm(880);
+                    sleep(800); //was 1000
 
                     Actions.runBlocking(
-                            drive.actionBuilder(new Pose2d(-28, 83, Math.toRadians(-90)))
-                                    .waitSeconds(1)
-                                    .strafeTo(new Vector2d(-28, 87))    //moves towards backdrop
-                                    .build()
-                    );
+                            drive.actionBuilder(new Pose2d(-22, -75, Math.toRadians(90)))
+                                    .strafeTo(new Vector2d(-22, -87.5))
+                                    .build());
 
-                    drive.Claw1.setPosition(1);
-                    sleep(400);
                     drive.Claw2.setPosition(1);
-                    sleep(500);
+                    drive.Claw1.setPosition(1);
+                    sleep(500); //was 1000
+
+                    Actions.runBlocking(
+                            drive.actionBuilder(new Pose2d(-22, -87.5, Math.toRadians(90)))
+                                    .strafeTo(new Vector2d(-22, -81))
+                                    .build());
+
                     drive.RotateArm(-90);
-                    sleep(1500);
+                    sleep(500);
                     drive.MoveLift(100);
                     sleep(1000);
                     drive.RotateArm(0);
                     sleep(500);
                     drive.MoveLift(0);
+                    sleep(500);
 
                     Actions.runBlocking(
-                            drive.actionBuilder(new Pose2d(-28, 87, Math.toRadians(-90))) //If it still turns reset to 0 (Heading)
-                                    .strafeTo(new Vector2d(-28, 84))
-                                    .waitSeconds(.5)
-                                    .strafeTo(new Vector2d(-46, 84))
+                            drive.actionBuilder(new Pose2d(-22, -81, Math.toRadians(90)))
+                                    .strafeTo(new Vector2d(-51, -81))
                                     .build());
-
                     requestOpModeStop();
 
                 } else if (objectDistanceX > 450 && objectDistanceX < 600) {//This is supposed to check if we are far enough forward towards the pixel but never became true
@@ -288,118 +292,126 @@ public class WingRedVISION extends LinearOpMode {
                     lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
                     Actions.runBlocking(
                             drive.actionBuilder(new Pose2d(0, 0, 0))
-                                    .waitSeconds(2)// add this in to coordinate autonomous
-                                    .strafeTo(new Vector2d(-23, 0)) //moves backwards 49.5" was .43.5
-                                    .turn(Math.toRadians(90))
+                                    //.waitSeconds(5) add this in to coordinate autonomous
+                                    .strafeTo(new Vector2d(0, 20))
+                                    .strafeTo(new Vector2d(-32,20))
+                                    .turn(Math.toRadians(204))
                                     .build());
 
-                    drive.ActivateIntake(-.65);
+                    drive.PPD(1);
                     sleep(1000);
-                    drive.ActivateIntake(0);
 
                     Actions.runBlocking(
-                            drive.actionBuilder(new Pose2d(-23, 0, Math.toRadians(90))) //was -43.5
-                                    .strafeTo(new Vector2d(-23, -3))
-                                    .turn(Math.toRadians(-90))
-                                    .strafeTo(new Vector2d(-43.5, -3))
-                                    .strafeTo(new Vector2d(-43.5, 83)) //moves left 83"
-                                    .waitSeconds(.1)
-                                    .turnTo(Math.toRadians(-90)) //turns 90 degrees clockwise
-                                    .strafeTo(new Vector2d(-21, 83))    //moves left 23"
+                            drive.actionBuilder(new Pose2d(-32, 20, Math.toRadians(180)))
+                                    .strafeTo(new Vector2d(-51, 20))
+                                    .turn(Math.toRadians(-101))
+                                    .build());
+
+                    Actions.runBlocking(
+                            drive.actionBuilder(new Pose2d(-51, 20, Math.toRadians(90)))
+                                    .strafeTo(new Vector2d(-51, -75))
+                                    .strafeTo(new Vector2d(-29, -75))
                                     .build());
 
                     drive.MoveLift(100);
                     sleep(500);
                     drive.RotateArm(-90);
-                    sleep(1000);
-                    drive.MoveLift(1450);
-                    sleep(1000);
+                    sleep(600); //delay after initial backswing
+                    drive.MoveLift(1375);
+                    sleep(800);
                     drive.RotateArm(880);
+                    sleep(800); //was 1000
 
                     Actions.runBlocking(
-                            drive.actionBuilder(new Pose2d(-21, 83, Math.toRadians(-90)))
-                                    .waitSeconds(1)
-                                    .strafeTo(new Vector2d(-21, 87))    //moves towards backdrop
-                                    .build()
-                    );
+                            drive.actionBuilder(new Pose2d(-29, -75, Math.toRadians(90)))
+                                    .strafeTo(new Vector2d(-29, -87.5))
+                                    .build());
 
-                    drive.Claw1.setPosition(1);
-                    sleep(400);
                     drive.Claw2.setPosition(1);
-                    sleep(500);
+                    drive.Claw1.setPosition(1);
+                    sleep(500); //was 1000
+
+                    Actions.runBlocking(
+                            drive.actionBuilder(new Pose2d(-29, -87.5, Math.toRadians(90)))
+                                    .strafeTo(new Vector2d(-29, -81))
+                                    .build());
+
                     drive.RotateArm(-90);
-                    sleep(1500);
+                    sleep(500);
                     drive.MoveLift(100);
                     sleep(1000);
                     drive.RotateArm(0);
                     sleep(500);
                     drive.MoveLift(0);
+                    sleep(500);
 
                     Actions.runBlocking(
-                            drive.actionBuilder(new Pose2d(-21, 87, Math.toRadians(-90))) //If it still turns reset to 0 (Heading)
-                                    .strafeTo(new Vector2d(-21, 84))
-                                    .waitSeconds(.5)
-                                    .strafeTo(new Vector2d(-50, 84))
+                            drive.actionBuilder(new Pose2d(-29, -81, Math.toRadians(90)))
+                                    .strafeTo(new Vector2d(-51, -81))
                                     .build());
-
                     requestOpModeStop();
                 }
             }
             else if(currentTime > 3){
                 visionPortal.close();
                 lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
-                    Actions.runBlocking(
-                            drive.actionBuilder(new Pose2d(0, 0, 0))
-                                    .waitSeconds(2) // add this in to coordinate autonomous
-                                    .strafeTo(new Vector2d(-43.5,0))   //moves backwards 49.5"
-                                    .strafeTo(new Vector2d(-43.5,-11))
-                                    .build());
+                Actions.runBlocking(
+                        drive.actionBuilder(new Pose2d(0, 0, 0))
+                                //.waitSeconds(5) add this in to coordinate autonomous
+                                .strafeTo(new Vector2d(-31,0))
+                                .turn(Math.toRadians(204))
+                                .build());
+                drive.PPD(1);
+                sleep(1000);
 
-                    drive.ActivateIntake(-.7); //upped speed from .7 bc it needed to shoot farther over here
-                    sleep(1000);
-                    drive.ActivateIntake(0);
+                Actions.runBlocking(
+                        drive.actionBuilder(new Pose2d(-31, 0, Math.toRadians(180)))
+                                .strafeTo(new Vector2d(-51, 0))
+                                .turn(Math.toRadians(-101))
+                                .build());
 
-                    Actions.runBlocking(
-                            drive.actionBuilder(new Pose2d(-43.5,-12,0))
-                                    .strafeTo(new Vector2d(-43.5,73)) //moves left 83"
-                                    .waitSeconds(.1)
-                                    .turnTo(Math.toRadians(-90)) //turns 90 degrees clockwise
-                                    .strafeTo(new Vector2d(-35, 73))    //moves left 16"
-                                    .build());
+                Actions.runBlocking(
+                        drive.actionBuilder(new Pose2d(-51, 0, Math.toRadians(90)))
+                                .strafeTo(new Vector2d(-51, -75))
+                                .strafeTo(new Vector2d(-16, -75))
+                                .build());
 
-                    drive.MoveLift(100);
-                    sleep(500);
-                    drive.RotateArm(-90);
-                    sleep(1000);
-                    drive.MoveLift(1450);
-                    sleep(1000);
-                    drive.RotateArm(880);
+                drive.MoveLift(100);
+                sleep(500);
+                drive.RotateArm(-90);
+                sleep(600); //delay after initial backswing
+                drive.MoveLift(1375);
+                sleep(800);
+                drive.RotateArm(880);
+                sleep(800); //was 1000
 
-                    Actions.runBlocking(
-                            drive.actionBuilder(new Pose2d(-35, 73, Math.toRadians(-90)))
-                                    .waitSeconds(1)
-                                    .strafeTo(new Vector2d(-35, 83))    //moves towards backdrop
-                                    .build()
-                    );
+                Actions.runBlocking(
+                        drive.actionBuilder(new Pose2d(-16, -75, Math.toRadians(90)))
+                                .strafeTo(new Vector2d(-16, -87.5))
+                                .build());
 
-                    drive.Claw1.setPosition(1);
-                    sleep(400);
-                    drive.Claw2.setPosition(1);
-                    sleep(500);
-                    drive.RotateArm(-90);
-                    sleep(1500);
-                    drive.MoveLift(100);
-                    sleep(1000);
-                    drive.RotateArm(0);
-                    sleep(500);
-                    drive.MoveLift(0);
+                drive.Claw2.setPosition(1);
+                drive.Claw1.setPosition(1);
+                sleep(500); //was 1000
 
-                    Actions.runBlocking(
-                            drive.actionBuilder(new Pose2d(-35,83,Math.toRadians(-90))) //If it still turns reset to 0 (Heading)
-                                    .strafeTo(new Vector2d(-35,78)) //was (-35, 84)
-                                    .waitSeconds(.5)
-                                    .strafeTo(new Vector2d(-50, 78))
-                                    .build());
+                Actions.runBlocking(
+                        drive.actionBuilder(new Pose2d(-16, -87.5, Math.toRadians(90)))
+                                .strafeTo(new Vector2d(-16, -81))
+                                .build());
+
+                drive.RotateArm(-90);
+                sleep(500);
+                drive.MoveLift(100);
+                sleep(1000);
+                drive.RotateArm(0);
+                sleep(500);
+                drive.MoveLift(0);
+                sleep(500);
+
+                Actions.runBlocking(
+                        drive.actionBuilder(new Pose2d(-16, -81, Math.toRadians(90)))
+                                .strafeTo(new Vector2d(-51, -81))
+                                .build());
                     requestOpModeStop();
                 }
                 //The X and Y never really dropped below 200. Or went over 300

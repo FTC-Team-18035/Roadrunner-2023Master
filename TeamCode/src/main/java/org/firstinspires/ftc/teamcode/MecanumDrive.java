@@ -66,32 +66,32 @@ public final class MecanumDrive {
 
         // drive model parameters                               //Old inPerTick
         public double inPerTick = .000534861457706;             //.000534109802638;
-        public double lateralInPerTick = 0.0003493623400888751; //<- Lateral Ramp Test Result | Measured result -> .000536273356116 //.000537708616815;
-        public double trackWidthTicks = 26463.04169415709; //<- Causes under rotation //26068.849048539818; Old trackWidthTicks          //26064.087849606232;
+        public double lateralInPerTick = 0.0003481669466792482; //<- Lateral Ramp Test Result | Measured result -> .000536273356116 //.000537708616815;
+        public double trackWidthTicks = 27163.28411024902; //<- Causes under rotation //26068.849048539818; Old trackWidthTicks          //26064.087849606232;
 
         // feedforward parameters (in tick units)
-        public double kS = 1.3751310748228427;         //1.0591236679718001; Old KS
-        public double kV = .000068;     //0.000149846154582138; Old KV
-        public double kA = .000038;
+        public double kS = .4;  //1.763558311731121;         //1.0591236679718001; Old KS
+        public double kV = .000084; //0.00007166641480141118;     //0.000149846154582138; Old KV
+        public double kA = .000037;
 
         // path profile parameters (in inches)
         // I changed maxWheelVel from 50
         public double maxWheelVel = 30;
         public double minProfileAccel = -30;
-        public double maxProfileAccel = 50;
+        public double maxProfileAccel = 30;
 
         // turn profile parameters (in radians)
         public double maxAngVel = Math.PI; // shared with path
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = 1.2;
-        public double lateralGain = 2.65;
-        public double headingGain = 10.85; // shared with turn
+        public double axialGain = 3.45;
+        public double lateralGain = .4;
+        public double headingGain = 3.155; // shared with turn
 
-        public double axialVelGain = .7;
-        public double lateralVelGain = .05;
-        public double headingVelGain = 0; // shared with turn
+        public double axialVelGain = .2;
+        public double lateralVelGain = .5;
+        public double headingVelGain = .9; // shared with turn
 
     }
 
@@ -113,7 +113,7 @@ public final class MecanumDrive {
     public final DcMotorEx leftFront, leftBack, rightBack, rightFront;
     public DcMotor LeftLiftMotor, RightLiftMotor, ArmRotationMotor;
     public DcMotor IntakeMotor;
-    public Servo Claw1, Claw2, Drone;
+    public Servo Claw1, Claw2, Drone, PPD;
     public RevBlinkinLedDriver lights;
     public final VoltageSensor voltageSensor;
 
@@ -221,6 +221,7 @@ public final class MecanumDrive {
         Claw1 = hardwareMap.get(Servo.class, "Claw1");
         Claw2 = hardwareMap.get(Servo.class, "Claw2");
         Drone = hardwareMap.get(Servo.class, "Drone");
+        PPD = hardwareMap.get(Servo.class, "PPD");
         lights = hardwareMap.get(RevBlinkinLedDriver.class, "lights");
 
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -539,4 +540,8 @@ public final class MecanumDrive {
 
     public void ActivateIntake(double power){
         IntakeMotor.setPower(power); }
+
+    public void PPD(double targetPos){
+        PPD.setPosition(targetPos);
+    }
 }
