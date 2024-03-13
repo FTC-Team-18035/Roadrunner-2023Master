@@ -230,21 +230,27 @@ public class AudienceBlueVISION extends LinearOpMode {
                     Actions.runBlocking(
                             drive.actionBuilder(new Pose2d(0, 0, 0))
                                     //.waitSeconds(5) add this in to coordinate autonomous
-                                    .strafeTo(new Vector2d(0, 13))
-                                    .strafeTo(new Vector2d(-41,13))
+                                    .strafeTo(new Vector2d(-42, 20.5))
                                     .turn(Math.toRadians(204))
                                     .build());
+
+                    Actions.runBlocking(
+                            drive.actionBuilder(new Pose2d(-42, 20.5, Math.toRadians(180)))
+                                    .strafeTo(new Vector2d(-42, 12.5))
+                                    .build());
+
                     drive.PPD(1);
                     sleep(1000);
 
                     Actions.runBlocking(
-                            drive.actionBuilder(new Pose2d(-41, 13, Math.toRadians(180)))
-                                    .strafeTo(new Vector2d(-51, 13))
+                            drive.actionBuilder(new Pose2d(-42, 12.5, Math.toRadians(180)))
+                                    .strafeTo(new Vector2d(-42, 13.5))
+                                    .strafeTo(new Vector2d(-51, 13.5))
                                     .turn(Math.toRadians(-101))
                                     .build());
 
                     Actions.runBlocking(
-                            drive.actionBuilder(new Pose2d(-51, 13, Math.toRadians(90)))
+                            drive.actionBuilder(new Pose2d(-51, 13.5, Math.toRadians(90)))
                                     .strafeTo(new Vector2d(-51, -75))
                                     .strafeTo(new Vector2d(-22, -75))
                                     .build());
