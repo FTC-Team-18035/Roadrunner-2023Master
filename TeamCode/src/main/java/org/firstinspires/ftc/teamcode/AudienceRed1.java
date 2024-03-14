@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import java.util.Vector;
 
-
+@Disabled
 @Autonomous
 //Replace "Template" with your new program's file name.
 public final class AudienceRed1 extends LinearOpMode {
@@ -47,7 +47,7 @@ public final class AudienceRed1 extends LinearOpMode {
         sleep(500);
         drive.RotateArm(-90);
         sleep(600); //delay after initial backswing
-        drive.MoveLift(1200);
+        drive.MoveLift(1375);
         sleep(800);
         drive.RotateArm(880);
         sleep(800); //was 1000

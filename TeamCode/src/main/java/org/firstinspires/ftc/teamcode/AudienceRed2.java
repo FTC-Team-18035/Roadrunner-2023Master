@@ -30,21 +30,28 @@ public final class AudienceRed2 extends LinearOpMode {
 
         Actions.runBlocking(
                 drive.actionBuilder(new Pose2d(-35, -20, 0))
-                        .strafeToLinearHeading(new Vector2d(-33, -30), Math.toRadians(96.5))
+                        .strafeTo(new Vector2d(-51, -20))
+                        .turn(Math.toRadians(-106.5))
+                        .build());
+
+        Actions.runBlocking(
+                drive.actionBuilder(new Pose2d(-51, -20, Math.toRadians(-90)))
+                        .strafeTo(new Vector2d(-51, 76.5))
+                        .strafeTo(new Vector2d(-20, 76.5))
                         .build());
 
         drive.MoveLift(100);
         sleep(500);
         drive.RotateArm(-90);
         sleep(600); //delay after initial backswing
-        drive.MoveLift(1200);
+        drive.MoveLift(1375);
         sleep(800);
         drive.RotateArm(880);
         sleep(800); //was 1000
 
         Actions.runBlocking(
-                drive.actionBuilder(new Pose2d(-33, -30, Math.toRadians(90)))
-                        .strafeTo(new Vector2d(-21, -42))
+                drive.actionBuilder(new Pose2d(-20, 76.5, Math.toRadians(-90)))
+                        .strafeTo(new Vector2d(-21.5, 90))
                         .build());
 
         drive.Claw2.setPosition(1);
@@ -52,9 +59,9 @@ public final class AudienceRed2 extends LinearOpMode {
         sleep(500); //was 1000
 
         Actions.runBlocking(
-                drive.actionBuilder(new Pose2d(-21, -42, Math.toRadians(90)))
-                        .strafeTo(new Vector2d(-21, -36))
-                        .strafeTo(new Vector2d(1, -36))
+                drive.actionBuilder(new Pose2d(-21.5, 90, Math.toRadians(-90)))
+                        .strafeTo(new Vector2d(-21.5, 84))
+                        .strafeTo(new Vector2d(-51, 84))
                         .build());
 
         drive.RotateArm(-90);

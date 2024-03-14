@@ -53,7 +53,7 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 @Autonomous(preselectTeleOp = "Main TeleOP")
-public class AudienceBlueVISION extends LinearOpMode {
+public class BLUEAudience extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
@@ -252,7 +252,7 @@ public class AudienceBlueVISION extends LinearOpMode {
                     Actions.runBlocking(
                             drive.actionBuilder(new Pose2d(-51, 13.5, Math.toRadians(90)))
                                     .strafeTo(new Vector2d(-51, -75))
-                                    .strafeTo(new Vector2d(-22, -75))
+                                    .strafeTo(new Vector2d(-20.5, -75))
                                     .build());
 
                     drive.MoveLift(100);
@@ -265,8 +265,8 @@ public class AudienceBlueVISION extends LinearOpMode {
                     sleep(800); //was 1000
 
                     Actions.runBlocking(
-                            drive.actionBuilder(new Pose2d(-22, -75, Math.toRadians(90)))
-                                    .strafeTo(new Vector2d(-22, -87.5))
+                            drive.actionBuilder(new Pose2d(-20.5, -75, Math.toRadians(90)))
+                                    .strafeTo(new Vector2d(-20.5, -87.5))
                                     .build());
 
                     drive.Claw2.setPosition(1);
@@ -274,8 +274,8 @@ public class AudienceBlueVISION extends LinearOpMode {
                     sleep(500); //was 1000
 
                     Actions.runBlocking(
-                            drive.actionBuilder(new Pose2d(-22, -87.5, Math.toRadians(90)))
-                                    .strafeTo(new Vector2d(-22, -81))
+                            drive.actionBuilder(new Pose2d(-20.5, -87.5, Math.toRadians(90)))
+                                    .strafeTo(new Vector2d(-20.5, -81))
                                     .build());
 
                     drive.RotateArm(-90);
@@ -288,7 +288,7 @@ public class AudienceBlueVISION extends LinearOpMode {
                     sleep(500);
 
                     Actions.runBlocking(
-                            drive.actionBuilder(new Pose2d(-22, -81, Math.toRadians(90)))
+                            drive.actionBuilder(new Pose2d(-20.5, -81, Math.toRadians(90)))
                                     .strafeTo(new Vector2d(-51, -81))
                                     .build());
                     requestOpModeStop();
@@ -330,7 +330,7 @@ public class AudienceBlueVISION extends LinearOpMode {
 
                     Actions.runBlocking(
                             drive.actionBuilder(new Pose2d(-29, -75, Math.toRadians(90)))
-                                    .strafeTo(new Vector2d(-29, -87.5))
+                                    .strafeTo(new Vector2d(-29, -88.5))
                                     .build());
 
                     drive.Claw2.setPosition(1);
@@ -338,7 +338,7 @@ public class AudienceBlueVISION extends LinearOpMode {
                     sleep(500); //was 1000
 
                     Actions.runBlocking(
-                            drive.actionBuilder(new Pose2d(-29, -87.5, Math.toRadians(90)))
+                            drive.actionBuilder(new Pose2d(-29, -88.5, Math.toRadians(90)))
                                     .strafeTo(new Vector2d(-29, -81))
                                     .build());
 

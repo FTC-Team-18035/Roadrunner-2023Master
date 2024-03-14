@@ -34,7 +34,6 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -53,8 +52,9 @@ import java.util.List;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@Autonomous//(preselectTeleOp = "Main TeleOP")
-public class BackstageBlueVISION extends LinearOpMode {
+@Autonomous(preselectTeleOp = "Main TeleOP")
+// UNTESTED program vor vision based autonomous starting from the BLUE WING side.
+public class REDAudience extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
@@ -75,7 +75,6 @@ public class BackstageBlueVISION extends LinearOpMode {
     public double objectDistanceY;//Saves the Y of the detected object
 
     ElapsedTime timer = new ElapsedTime();
-
     public int DetetcionLeft = 100;
     public int DetectionMiddle = 250;
     public int DetectionRight = 350;
@@ -113,11 +112,10 @@ public class BackstageBlueVISION extends LinearOpMode {
 
                 double currentTime = timer.seconds();
                 telemetryTfod(currentTime);
-                telemetry.addData("Time", timer.seconds());
+                telemetry.addData("Time", currentTime);
                 telemetry.addData("Label", label);
                 // Push telemetry to the Driver Station.
                 telemetry.update();
-                /*
                 // Save CPU resources; can resume streaming when needed.
                 if (gamepad1.dpad_down) {
                     visionPortal.stopStreaming();
@@ -128,7 +126,7 @@ public class BackstageBlueVISION extends LinearOpMode {
                 // Share the CPU.
                 sleep(20);
 
-                 */
+
             }
         }
 
@@ -194,7 +192,7 @@ public class BackstageBlueVISION extends LinearOpMode {
         visionPortal = builder.build();
 
         // Set confidence threshold for TFOD recognitions, at any time.
-        tfod.setMinResultConfidence(0.50f);
+        tfod.setMinResultConfidence(0.40f);
 
         // Disable or re-enable the TFOD processor at any time.
         //visionPortal.setProcessorEnabled(tfod, true);
@@ -222,11 +220,10 @@ public class BackstageBlueVISION extends LinearOpMode {
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
-
         }
-            if (label == "BlueProp") {//Checks to see if something has been detected (If nothing has been label is empty ""
+            if (label == "RedProp") {//Checks to see if something has been detected (If nothing has been label is empty ""
                 //Spike mark 2
-                if (objectDistanceX >= 10 && objectDistanceX <= 400) {//The thought was if the robot move left far enough this would become false
+                if (objectDistanceX >= 10 && objectDistanceX <= 450) {//The thought was if the robot move left far enough this would become false
                     visionPortal.close();
                     lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
                     Actions.runBlocking(
@@ -240,21 +237,28 @@ public class BackstageBlueVISION extends LinearOpMode {
 
                     Actions.runBlocking(
                             drive.actionBuilder(new Pose2d(-35, -20, 0))
-                                    .strafeToLinearHeading(new Vector2d(-33, -30), Math.toRadians(96.5))
+                                    .strafeTo(new Vector2d(-51, -20))
+                                    .turn(Math.toRadians(-106.5))
+                                    .build());
+
+                    Actions.runBlocking(
+                            drive.actionBuilder(new Pose2d(-51, -20, Math.toRadians(-90)))
+                                    .strafeTo(new Vector2d(-51, 76.5))
+                                    .strafeTo(new Vector2d(-20, 76.5))
                                     .build());
 
                     drive.MoveLift(100);
                     sleep(500);
                     drive.RotateArm(-90);
                     sleep(600); //delay after initial backswing
-                    drive.MoveLift(1200);
+                    drive.MoveLift(1375);
                     sleep(800);
                     drive.RotateArm(880);
                     sleep(800); //was 1000
 
                     Actions.runBlocking(
-                            drive.actionBuilder(new Pose2d(-33, -30, Math.toRadians(90)))
-                                    .strafeTo(new Vector2d(-21, -42))
+                            drive.actionBuilder(new Pose2d(-20, 76.5, Math.toRadians(-90)))
+                                    .strafeTo(new Vector2d(-21.5, 90))
                                     .build());
 
                     drive.Claw2.setPosition(1);
@@ -262,9 +266,9 @@ public class BackstageBlueVISION extends LinearOpMode {
                     sleep(500); //was 1000
 
                     Actions.runBlocking(
-                            drive.actionBuilder(new Pose2d(-21, -42, Math.toRadians(90)))
-                                    .strafeTo(new Vector2d(-21, -36))
-                                    .strafeTo(new Vector2d(1, -36))
+                            drive.actionBuilder(new Pose2d(-21.5, 90, Math.toRadians(-90)))
+                                    .strafeTo(new Vector2d(-21.5, 84))
+                                    .strafeTo(new Vector2d(-51, 84))
                                     .build());
 
                     drive.RotateArm(-90);
@@ -275,12 +279,13 @@ public class BackstageBlueVISION extends LinearOpMode {
                     sleep(500);
                     drive.MoveLift(0);
                     sleep(500);
-                    requestOpModeStop();
 
+
+                    requestOpModeStop();
                     //Spike mark 3
-                } else if (objectDistanceX > 400 && objectDistanceX < 600) {//This is supposed to check if we are far enough forward towards the pixel but never became true
+                } else if (objectDistanceX > 450 && objectDistanceX < 600) {//This is supposed to check if we are far enough forward towards the pixel but never became true
                     visionPortal.close();
-                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
+                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
                     Actions.runBlocking(
                             drive.actionBuilder(new Pose2d(0, 0, 0))
                                     //.waitSeconds(5) add this in to coordinate autonomous
@@ -294,21 +299,28 @@ public class BackstageBlueVISION extends LinearOpMode {
 
                     Actions.runBlocking(
                             drive.actionBuilder(new Pose2d(-30, 0, 0))
-                                    .strafeToLinearHeading(new Vector2d(-33, -30), Math.toRadians(96.5))
+                                    .strafeTo(new Vector2d(-51, -0))
+                                    .turn(Math.toRadians(-105))
+                                    .build());
+
+                    Actions.runBlocking(
+                            drive.actionBuilder(new Pose2d(-51, -0, Math.toRadians(-90)))
+                                    .strafeTo(new Vector2d(-51, 76.5))
+                                    .strafeTo(new Vector2d(-14.5, 76.5))
                                     .build());
 
                     drive.MoveLift(100);
                     sleep(500);
                     drive.RotateArm(-90);
                     sleep(600); //delay after initial backswing
-                    drive.MoveLift(1200);
+                    drive.MoveLift(1375);
                     sleep(800);
                     drive.RotateArm(880);
                     sleep(800); //was 1000
 
                     Actions.runBlocking(
-                            drive.actionBuilder(new Pose2d(-33, -30, Math.toRadians(90)))
-                                    .strafeTo(new Vector2d(-30, -42))
+                            drive.actionBuilder(new Pose2d(-14.5, 76.5, Math.toRadians(-90)))
+                                    .strafeTo(new Vector2d(-14.5, 90))
                                     .build());
 
                     drive.Claw2.setPosition(1);
@@ -316,9 +328,9 @@ public class BackstageBlueVISION extends LinearOpMode {
                     sleep(500); //was 1000
 
                     Actions.runBlocking(
-                            drive.actionBuilder(new Pose2d(-30, -42, Math.toRadians(90)))
-                                    .strafeTo(new Vector2d(-30, -36))
-                                    .strafeTo(new Vector2d(1, -36))
+                            drive.actionBuilder(new Pose2d(-14.5, 90, Math.toRadians(-90)))
+                                    .strafeTo(new Vector2d(-14.5, 80))
+                                    .strafeTo(new Vector2d(-48, 80))
                                     .build());
 
                     drive.RotateArm(-90);
@@ -333,62 +345,68 @@ public class BackstageBlueVISION extends LinearOpMode {
                 }
             }
             else if(currentTime > 3){//Spike mark 1
-                visionPortal.close();
-                lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
-                Actions.runBlocking(
-                        drive.actionBuilder(new Pose2d(0, 0, 0))
-                                //.waitSeconds(5) add this in to coordinate autonomous
-                                .strafeTo(new Vector2d(-25, -26))
-                                .build());
+                    visionPortal.close();
+                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
 
-                drive.PPD(1);
-                sleep(1000);
+                    Actions.runBlocking(
+                            drive.actionBuilder(new Pose2d(0, 0, 0))
+                                    //.waitSeconds(5) add this in to coordinate autonomous
+                                    .strafeTo(new Vector2d(-25, -24.5))
+                                    .build());
 
-                Actions.runBlocking(
-                        drive.actionBuilder(new Pose2d(-25, -26, 0))
-                                .strafeToLinearHeading(new Vector2d(-25, -30), Math.toRadians(96.5))
-                                .build());
+                    drive.PPD(1);
+                    sleep(1000);
 
-                drive.MoveLift(100);
-                sleep(500);
-                drive.RotateArm(-90);
-                sleep(600); //delay after initial backswing
-                drive.MoveLift(1200);
-                sleep(800);
-                drive.RotateArm(880);
-                sleep(800); //was 1000
+                    Actions.runBlocking(
+                            drive.actionBuilder(new Pose2d(-25, -24.5, 0))
+                                    .strafeTo(new Vector2d(-51, -25))
+                                    .strafeTo(new Vector2d(-51, 0))
+                                    .turn(Math.toRadians(-105))
+                                    .build());
+                    Actions.runBlocking(
+                            drive.actionBuilder(new Pose2d(-51, 0, Math.toRadians(-90)))
+                                    .strafeTo(new Vector2d(-51, 76.5))
+                                    .strafeTo(new Vector2d(-28.5, 76.5))
+                                    .build());
 
-                Actions.runBlocking(
-                        drive.actionBuilder(new Pose2d(-25, -30, Math.toRadians(90)))
-                                .strafeTo(new Vector2d(-17, -42))
-                                .build());
+                    drive.MoveLift(100);
+                    sleep(500);
+                    drive.RotateArm(-90);
+                    sleep(600); //delay after initial backswing
+                    drive.MoveLift(1375);
+                    sleep(800);
+                    drive.RotateArm(880);
+                    sleep(800); //was 1000
 
-                drive.Claw2.setPosition(1);
-                drive.Claw1.setPosition(1);
-                sleep(500); //was 1000
+                    Actions.runBlocking(
+                            drive.actionBuilder(new Pose2d(-28.5, 76.5, Math.toRadians(-90)))
+                                    .strafeTo(new Vector2d(-26, 90))
+                                    .build());
 
-                Actions.runBlocking(
-                        drive.actionBuilder(new Pose2d(-17, -42, Math.toRadians(90)))
-                                .strafeTo(new Vector2d(-17, -36))
-                                .strafeTo(new Vector2d(1, -36))
-                                .build());
+                    drive.Claw2.setPosition(1);
+                    drive.Claw1.setPosition(1);
+                    sleep(500); //was 1000
 
-                drive.RotateArm(-90);
-                sleep(500);
-                drive.MoveLift(100);
-                sleep(1000);
-                drive.RotateArm(0);
-                sleep(500);
-                drive.MoveLift(0);
-                sleep(500);
-                requestOpModeStop();
+                    Actions.runBlocking(
+                            drive.actionBuilder(new Pose2d(-26, 90, Math.toRadians(-90)))
+                                    .strafeTo(new Vector2d(-26, 84))
+                                    .strafeTo(new Vector2d(-48, 84))
+                                    .build());
+
+                    drive.RotateArm(-90);
+                    sleep(500);
+                    drive.MoveLift(100);
+                    sleep(1000);
+                    drive.RotateArm(0);
+                    sleep(500);
+                    drive.MoveLift(0);
+                    sleep(500);
+                        requestOpModeStop();
                 }
-                //The X and Y never really dropped below 200. Or went over 300
-         // end for() loop
+                //The X and Y never really dropped below 200. Or went over 300// end for() loop
 
     }
-}
-// end method telemetryTfod()
+}// end method telemetryTfod()
 
 
 // end class
